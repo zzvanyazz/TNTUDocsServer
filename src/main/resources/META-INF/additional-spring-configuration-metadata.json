@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "mail.transport.protocol",
+      "type": "java.lang.String",
+      "description": "Description for mail.transport.protocol."
+  }
+] }
