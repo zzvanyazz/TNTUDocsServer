@@ -11,9 +11,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public final class ResponseEntityFactory {
     private ResponseEntityFactory() {
@@ -67,20 +73,22 @@ public final class ResponseEntityFactory {
         return new ResponseEntity<>(Response.empty, HttpStatus.OK);
     }
 
-    /*public static ResponseEntity<?> createFile(FileDto file) {
+    public static ResponseEntity<?> createFile(MultipartFile file) throws IOException {
         var headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getOriginalName());
+        var decodedFileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
+        decodedFileName = decodedFileName.replaceAll("\\+", "%20");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + decodedFileName);
 
-        var size = file.getSize() != null ? file.getSize() : 0;
-        var mediaType = MediaType.parseMediaType(file.getMediaType());
-        var resource = new InputStreamResource(file.getStream());
+        var size = file.getSize();
+        var mediaType = MediaType.MULTIPART_FORM_DATA;
+        var resource = new InputStreamResource(file.getInputStream());
 
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(size)
                 .contentType(mediaType)
                 .body(resource);
-    }*/
+    }
 
     private static ResponseEntity<?> createResponseEntity(Error error, HttpStatus httpStatus) {
         var response = new Response<>(error);
