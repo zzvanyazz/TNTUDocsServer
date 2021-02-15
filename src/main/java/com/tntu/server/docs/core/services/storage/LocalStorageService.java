@@ -1,17 +1,23 @@
 package com.tntu.server.docs.core.services.storage;
 
 import com.tntu.server.docs.core.models.data.BytesMultipartFile;
+import com.tntu.server.docs.core.models.data.FileModel;
 import com.tntu.server.docs.core.models.data.FolderModel;
 import com.tntu.server.docs.core.models.exceptions.file.InvalidResourceException;
 import com.tntu.server.docs.core.models.exceptions.file.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,7 +79,7 @@ public class LocalStorageService implements StorageService {
         var path = createPath(resource);
         if (!isExists(resource) || Files.isRegularFile(path))
             throw new ResourceNotExistsException();
-        var folder = getFolder(path);
+        var folder = createFolderModel(path);
         if (folder == null)
             throw new ResourceNotExistsException();
         return folder;
@@ -91,27 +97,44 @@ public class LocalStorageService implements StorageService {
         }
     }
 
-    private FolderModel getFolder(Path rootPath) {
+    private FolderModel createFolderModel(Path rootPath) {
         var folders = new ArrayList<FolderModel>();
-        var files = new ArrayList<String>();
+        var files = new ArrayList<FileModel>();
         if (Files.isRegularFile(rootPath))
             return null;
-        List<Path> paths;
-        try {
-            paths = Files.list(rootPath).collect(Collectors.toList());
-        } catch (IOException e) {
-            return null;
-        }
+        List<Path> paths = getPaths(rootPath);
         for (Path path : paths) {
             if (Files.isRegularFile(path)) {
-                files.add(path.getFileName().toString());
+                files.add(createFileModel(path));
             } else if (Files.isDirectory(path)) {
-                folders.add(getFolder(path));
+                folders.add(createFolderModel(path));
             }
         }
         var namesCount = rootPath.getNameCount();
         var name = namesCount != 0 ? rootPath.getName(namesCount - 1) : rootPath;
+        folders.sort(FolderModel::compareTo);
+        files.sort(FileModel::compareTo);
         return new FolderModel(name.toString(), folders, files);
+    }
+
+    private List<Path> getPaths(Path rootPath) {
+        try {
+            return Files.list(rootPath).collect(Collectors.toList());
+        } catch (IOException e) {
+            return Collections.emptyList();
+        }
+    }
+
+    private FileModel createFileModel(Path path) {
+        var fileName = path.getFileName().toString();
+        try {
+            var attributes = Files.readAttributes(path, BasicFileAttributes.class);
+            var timeInstant = attributes.creationTime().toInstant();
+            var createDateTime = OffsetDateTime.ofInstant(timeInstant, ZoneId.systemDefault());
+            return new FileModel(fileName, createDateTime);
+        } catch (IOException ignored) {
+        }
+        return new FileModel(fileName, null);
     }
 
     private Path createPath(String first, String... more) throws InvalidResourceException {

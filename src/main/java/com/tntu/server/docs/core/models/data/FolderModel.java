@@ -1,16 +1,17 @@
 package com.tntu.server.docs.core.models.data;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public class FolderModel {
+public class FolderModel implements Comparable<FolderModel> {
     private String name;
     private List<FolderModel> folders;
-    private List<String> fileNames;
+    private List<FileModel> files;
 
-    public FolderModel(String name, List<FolderModel> folders, List<String> fileNames) {
+    public FolderModel(String name, List<FolderModel> folders, List<FileModel> files) {
         this.name = name;
         this.folders = folders;
-        this.fileNames = fileNames;
+        this.files = files;
     }
 
     public String getName() {
@@ -29,11 +30,19 @@ public class FolderModel {
         this.folders = folders;
     }
 
-    public List<String> getFileNames() {
-        return fileNames;
+    public List<FileModel> getFiles() {
+        return files;
     }
 
-    public void setFileNames(List<String> fileNames) {
-        this.fileNames = fileNames;
+    public void setFiles(List<FileModel> files) {
+        this.files = files;
+    }
+
+    @Override
+    public int compareTo(@NotNull FolderModel folderModel) {
+        return name == null ? Integer.MIN_VALUE :
+                (folderModel.name == null ?
+                        Integer.MAX_VALUE :
+                        name.compareTo(folderModel.name)) ;
     }
 }

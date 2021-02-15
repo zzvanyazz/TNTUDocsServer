@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class DocsApplicationTests {
 
-	private static String authHeader = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjE0MzIwMjA2LCJpc3MiOiJ0bnR1LWRvY3MiLCJpYXQiOjE2MTMxMTA2MDZ9.BkMoPwmrivGSJ7sAvkwHEaXNyllaKpukF73ZZAD6hQ_rtz4Lj2Wtcn2ZAJjN-EL--BC3ojgXyGArqg3Lpf7bmg";
+	private static final String authHeader = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjE0NjIxOTI5LCJpc3MiOiJ0bnR1LWRvY3MiLCJpYXQiOjE2MTM0MTIzMjl9.dl1Plw5KG0VPZjEBQGI0mBVA7_7-PZghSsYTwYFbAPhwIa5QLh6fIcDGkM5ZmS4Yw4dRSIMNkfGVwqV53EwR4g";
 
 
     @Autowired
@@ -37,7 +37,6 @@ public class DocsApplicationTests {
 
 	@Test
 	public void getResourcesTree() throws Exception {
-		assert authHeader != null : "Can not auth";
         var runnables = new Runnable[100];
         for (int i = 0; i < 100; i++)
             runnables[i] = this::run;
@@ -49,7 +48,7 @@ public class DocsApplicationTests {
 
 	public void run() {
         try {
-            mockMvc.perform(get("/v1/docs")
+            mockMvc.perform(get("/v1/docs/public/tree")
                     .header("Authorization", authHeader))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON));
