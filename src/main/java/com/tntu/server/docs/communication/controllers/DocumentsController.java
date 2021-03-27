@@ -3,6 +3,7 @@ package com.tntu.server.docs.communication.controllers;
 
 import com.tntu.server.docs.communication.models.auth.AuthorityRole;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
+import com.tntu.server.docs.core.models.data.ExtendedFileModel;
 import com.tntu.server.docs.core.services.DocumentsService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/docs")
@@ -76,4 +78,17 @@ public class DocumentsController {
         return ResponseEntityFactory.createFile(file);
     }
 
+    @ApiOperation("Find public files.")
+    @GetMapping(value = "/find-public-files")
+    public ResponseEntity<?> findPublicFiles(@RequestParam @NotBlank String fileName) throws Exception {
+        List<ExtendedFileModel> files = documentsService.findPublicFiles(fileName);
+        return ResponseEntityFactory.createOk(files);
+    }
+
+    @ApiOperation("Find any files.")
+    @GetMapping("/find-any-files")
+    public ResponseEntity<?> findAnyFiles(@RequestParam @NotBlank String fileName) throws Exception {
+        List<ExtendedFileModel> files = documentsService.findAnyFiles(fileName);
+        return ResponseEntityFactory.createOk(files);
+    }
 }
