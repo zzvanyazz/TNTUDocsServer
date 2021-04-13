@@ -20,17 +20,6 @@ public class DocumentsService {
     @Autowired
     private StorageService storageService;
 
-    @Autowired
-    private StorageOptions storageOptions;
-
-    @PostConstruct
-    private void postConstruct() throws CanNotCreateDirectoryException, InvalidResourceException {
-        var publicLocation = storageOptions.getPublicLocation();
-        var privateLocation = storageOptions.getPrivateLocation();
-        storageService.createDirectory(privateLocation);
-        storageService.createDirectory(publicLocation);
-    }
-
     public List<ExtendedFileModel> findPublicFiles(String filePart)
             throws InvalidResourceException, ResourceNotExistsException {
         return findFile(filePart, false);
@@ -74,6 +63,22 @@ public class DocumentsService {
         return storageService.loadFile(combineResource(location, isPrivate));
     }
 
+    public void moveFile(String fileLocation, String pathLocation)
+            throws InvalidResourceException, CanNotMoveException {
+        var isExistsPath = storageService.isExists(fileLocation);
+        var isExistsPathTo = storageService.isExists(pathLocation);
+        if (!isExistsPath || !isExistsPathTo)
+            throw new InvalidResourceException();
+
+        storageService.moveObject(fileLocation, pathLocation);
+    }
+    
+    public void deleteFile(String location)
+            throws InvalidResourceException, ResourceNotExistsException, DeleteFileException {
+        if (!storageService.isExists(location))
+            throw new ResourceNotExistsException();
+        storageService.deleteFile(location);
+    }
 
     private FolderModel getFolderModel(String resource, boolean isPrivate)
             throws ResourceNotExistsException, InvalidResourceException {
@@ -82,9 +87,8 @@ public class DocumentsService {
     }
 
 
-    private String combineResource(String resource, boolean isPrivate) {
-        return (isPrivate ? storageOptions.getPrivateLocation() : storageOptions.getPublicLocation())
-                + (resource != null ? resource : "");
+    private String combineResource(String resource, boolean isPrivate) throws InvalidResourceException {
+        return storageService.combineResource(resource, isPrivate);
     }
 
     private List<ExtendedFileModel> findFile(String filePart, boolean amongPrivate)

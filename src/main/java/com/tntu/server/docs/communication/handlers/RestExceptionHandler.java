@@ -57,6 +57,9 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
             DeleteFileException.class,
             CanNotCreateDirectoryException.class,
             FileAlreadyExistsException.class,
+            CanNotDeleteDirectoryException.class,
+            CanNotMoveException.class,
+            CanNotCreateDirectoryException.class,
     })
     protected ResponseEntity<?> handleConflict(Exception exception, WebRequest request) {
         var response = ResponseFactory.createConflict(exception);

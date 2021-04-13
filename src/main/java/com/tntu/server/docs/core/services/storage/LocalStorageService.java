@@ -3,30 +3,48 @@ package com.tntu.server.docs.core.services.storage;
 import com.tntu.server.docs.core.models.data.BytesMultipartFile;
 import com.tntu.server.docs.core.models.data.FileModel;
 import com.tntu.server.docs.core.models.data.FolderModel;
-import com.tntu.server.docs.core.models.exceptions.file.InvalidResourceException;
 import com.tntu.server.docs.core.models.exceptions.file.*;
+import com.tntu.server.docs.core.options.StorageOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import javax.annotation.PostConstruct;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class LocalStorageService implements StorageService {
+
+    private static final Logger LOG = Logger.getLogger(LocalStorageService.class.getName());
+
+    @Autowired
+    private StorageOptions storageOptions;
+
+    @PostConstruct
+    private void postConstruct() throws CanNotCreateDirectoryException, InvalidResourceException {
+        var publicLocation = storageOptions.getPublicLocation();
+        var privateLocation = storageOptions.getPrivateLocation();
+        createDirectory(privateLocation);
+        createDirectory(publicLocation);
+    }
+
     @Override
     public void saveFile(String resource, MultipartFile multipartFile)
             throws CanNotWriteFileException, FileAlreadyExistsException, InvalidResourceException {
-        var fileLocation = createPath(resource, multipartFile.getOriginalFilename());
+        var fileLocation = parseToPath(resource, multipartFile.getOriginalFilename());
         if (isExists(fileLocation.toString())) {
             throw new FileAlreadyExistsException();
         }
@@ -35,7 +53,9 @@ public class LocalStorageService implements StorageService {
             FileOutputStream fileOutputStream = new FileOutputStream(path.toFile());
             fileOutputStream.write(multipartFile.getBytes());
             fileOutputStream.close();
+            LOG.log(Level.INFO, String.format("File saved. Location - %s", fileLocation));
         } catch (IOException e) {
+            LOG.log(Level.WARNING, e.getMessage(), e);
             throw new CanNotWriteFileException();
         }
 
@@ -46,7 +66,7 @@ public class LocalStorageService implements StorageService {
             throws FileNotExistsException, CanNotReadFileException, InvalidResourceException {
         if (!isExists(resource))
             throw new FileNotExistsException();
-        var path = createPath(resource);
+        var path = parseToPath(resource);
         byte[] bytes;
         try {
             bytes = Files.readAllBytes(path);
@@ -54,21 +74,28 @@ public class LocalStorageService implements StorageService {
             throw new CanNotReadFileException();
         }
         var fileName = path.getFileName().toString();
+        LOG.log(Level.INFO, String.format("File Loaded. Location - %s", resource));
         return new BytesMultipartFile(fileName, bytes);
-
     }
 
     @Override
     public boolean isExists(String resource) throws InvalidResourceException {
-        return Files.exists(createPath(resource));
+        var path = parseToPath(resource);
+        return Files.exists(path);
     }
 
     @Override
     public void deleteFile(String resource)
             throws DeleteFileException, InvalidResourceException {
         try {
-            Files.delete(createPath(resource));
+            var path = parseToPath(resource);
+            if (!Files.isRegularFile(path))
+                throw new DeleteFileException();
+
+            Files.delete(path);
+            LOG.log(Level.INFO, String.format("File Deleted. Location - %s", resource));
         } catch (IOException e) {
+            LOG.log(Level.WARNING, e.getMessage(), e);
             throw new DeleteFileException();
         }
     }
@@ -76,7 +103,7 @@ public class LocalStorageService implements StorageService {
     @Override
     public FolderModel getElementsTree(String resource)
             throws ResourceNotExistsException, InvalidResourceException {
-        var path = createPath(resource);
+        var path = parseToPath(resource);
         if (!isExists(resource) || Files.isRegularFile(path))
             throw new ResourceNotExistsException();
         var folder = createFolderModel(path);
@@ -90,10 +117,56 @@ public class LocalStorageService implements StorageService {
             throws CanNotCreateDirectoryException, InvalidResourceException {
         if (!isExists(location)) {
             try {
-                Files.createDirectory(createPath(location));
+                Files.createDirectory(parseToPath(location));
+                LOG.log(Level.INFO, String.format("Directory created. Location - %s", location));
             } catch (IOException e) {
+                LOG.log(Level.WARNING, e.getMessage(), e);
                 throw new CanNotCreateDirectoryException();
             }
+        }
+    }
+
+    @Override
+    public void deleteDirectory(String location) throws CanNotDeleteDirectoryException, InvalidResourceException {
+        try {
+            var path = parseToPath(location);
+            if (!Files.isDirectory(path))
+                throw new CanNotDeleteDirectoryException();
+
+            var isDeleted = Files.deleteIfExists(path);
+            if (!isDeleted)
+                throw new CanNotDeleteDirectoryException();
+
+            LOG.log(Level.INFO, String.format("Directory deleted. Location - %s", location));
+        } catch (IOException e) {
+            LOG.log(Level.WARNING, e.getMessage(), e);
+            throw new CanNotDeleteDirectoryException();
+        }
+    }
+
+    @Override
+    public String combine(String root, String... paths) throws InvalidResourceException {
+        return parseToPath(root, paths).toString();
+    }
+
+    @Override
+    public String combineResource(String resource, boolean isPrivate) throws InvalidResourceException {
+        return combine(
+                (isPrivate ? storageOptions.getPrivateLocation() : storageOptions.getPublicLocation()),
+                (resource != null ? resource : ""));
+    }
+
+    @Override
+    public void moveObject(String location, String locationTo)
+            throws CanNotMoveException, InvalidResourceException {
+        var path = parseToPath(location);
+        var pathTo = parseToPath(locationTo);
+        try {
+            Files.move(path, pathTo, StandardCopyOption.ATOMIC_MOVE);
+            LOG.log(Level.INFO, String.format("Object moved. Location - %s. Location to - %s", location, locationTo));
+        } catch (IOException e) {
+            LOG.log(Level.WARNING, e.getMessage(), e);
+            throw new CanNotMoveException();
         }
     }
 
@@ -132,15 +205,19 @@ public class LocalStorageService implements StorageService {
             var timeInstant = attributes.creationTime().toInstant();
             var createDateTime = OffsetDateTime.ofInstant(timeInstant, ZoneId.systemDefault());
             return new FileModel(fileName, createDateTime);
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            LOG.log(Level.WARNING, e.getMessage(), e);
         }
         return new FileModel(fileName, null);
     }
 
-    private Path createPath(String first, String... more) throws InvalidResourceException {
+    private Path parseToPath(String first, String... more) throws InvalidResourceException {
         try {
+            var startsWithSlash = first.startsWith("/") || first.startsWith("\\") || first.isEmpty();
+            first = (startsWithSlash ? "" : "/") + first;
             return Path.of(first, more);
         } catch (Exception e) {
+            LOG.log(Level.WARNING, e.getMessage(), e);
             throw new InvalidResourceException();
         }
     }

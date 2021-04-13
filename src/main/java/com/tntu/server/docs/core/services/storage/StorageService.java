@@ -21,4 +21,12 @@ public interface StorageService {
 
     void createDirectory(String location) throws CanNotCreateDirectoryException, InvalidResourceException;
 
+    void deleteDirectory(String location) throws CanNotDeleteDirectoryException, InvalidResourceException;
+
+    String combine(String root, String... paths) throws InvalidResourceException;
+
+    String combineResource(String resource, boolean isPrivate) throws InvalidResourceException;
+
+    void moveObject(String location, String locationTo) throws CanNotMoveException, InvalidResourceException;
+
 }
