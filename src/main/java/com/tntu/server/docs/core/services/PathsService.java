@@ -1,9 +1,9 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.core.models.exceptions.file.CanNotCreateDirectoryException;
-import com.tntu.server.docs.core.models.exceptions.file.CanNotDeleteDirectoryException;
-import com.tntu.server.docs.core.models.exceptions.file.CanNotMoveException;
-import com.tntu.server.docs.core.models.exceptions.file.InvalidResourceException;
+import com.tntu.server.docs.core.data.exceptions.file.CanNotCreateDirectoryException;
+import com.tntu.server.docs.core.data.exceptions.file.CanNotDeleteDirectoryException;
+import com.tntu.server.docs.core.data.exceptions.file.CanNotMoveException;
+import com.tntu.server.docs.core.data.exceptions.file.InvalidResourceException;
 import com.tntu.server.docs.core.services.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,20 +17,17 @@ public class PathsService {
     public void createPath(String location, String pathName, boolean isPrivate)
             throws InvalidResourceException, CanNotCreateDirectoryException {
         var resource = storageService.combine(location, pathName);
-        resource = storageService.combineResource(resource, isPrivate);
         storageService.createDirectory(resource);
     }
 
 
-    public void deletePath(String location, boolean isPrivate)
+    public void deletePath(String location)
             throws InvalidResourceException, CanNotDeleteDirectoryException {
-        var resource = storageService.combineResource(location, isPrivate);
-        storageService.deleteDirectory(resource);
+        storageService.deleteDirectory(location);
     }
 
     public void movePath(String path, String pathTo)
             throws InvalidResourceException, CanNotMoveException {
-
         var isExistsPath = storageService.isExists(path);
         var isExistsPathTo = storageService.isExists(pathTo);
         if (!isExistsPath || !isExistsPathTo)

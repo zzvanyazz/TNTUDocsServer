@@ -1,6 +1,6 @@
 package com.tntu.server.docs.db.repositories.impl;
 
-import com.tntu.server.docs.core.models.data.UserRoleModel;
+import com.tntu.server.docs.core.data.models.user.UserRoleModel;
 import com.tntu.server.docs.core.repositories.UserRolesModelRepository;
 import com.tntu.server.docs.db.entities.UserRoleEntity;
 import com.tntu.server.docs.db.mapping.UserRoleMapper;

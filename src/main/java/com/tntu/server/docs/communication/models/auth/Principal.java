@@ -1,6 +1,6 @@
 package com.tntu.server.docs.communication.models.auth;
 
-import com.tntu.server.docs.core.models.data.UserModel;
+import com.tntu.server.docs.core.data.models.user.UserModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

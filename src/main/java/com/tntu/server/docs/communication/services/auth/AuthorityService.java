@@ -1,10 +1,10 @@
 package com.tntu.server.docs.communication.services.auth;
 
 import com.tntu.server.docs.communication.models.auth.AuthorityRole;
-import com.tntu.server.docs.core.models.data.RoleModel;
-import com.tntu.server.docs.core.models.data.UserModel;
-import com.tntu.server.docs.core.models.exceptions.RoleNotFoundException;
-import com.tntu.server.docs.core.models.exceptions.UserNotFoundException;
+import com.tntu.server.docs.core.data.models.user.RoleModel;
+import com.tntu.server.docs.core.data.models.user.UserModel;
+import com.tntu.server.docs.core.data.exceptions.user.RoleNotFoundException;
+import com.tntu.server.docs.core.data.exceptions.user.UserNotFoundException;
 import com.tntu.server.docs.core.services.RoleService;
 import com.tntu.server.docs.core.services.UserRolesService;
 import org.springframework.beans.factory.annotation.Autowired;

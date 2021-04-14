@@ -1,7 +1,7 @@
 package com.tntu.server.docs.communication.models.mappings;
 
 import com.tntu.server.docs.communication.models.dto.RoleDto;
-import com.tntu.server.docs.core.models.data.RoleModel;
+import com.tntu.server.docs.core.data.models.user.RoleModel;
 
 public class RoleMapper {
 

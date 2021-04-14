@@ -1,10 +1,16 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.communication.models.auth.AuthorityRole;
-import com.tntu.server.docs.core.models.data.RegistrationModel;
-import com.tntu.server.docs.core.models.data.RoleModel;
-import com.tntu.server.docs.core.models.data.UserModel;
-import com.tntu.server.docs.core.models.exceptions.*;
+import com.tntu.server.docs.core.data.exceptions.auth.CanNotCreateUserException;
+import com.tntu.server.docs.core.data.exceptions.auth.CanNotSendMailException;
+import com.tntu.server.docs.core.data.exceptions.auth.RegistrationCodeNotFoundException;
+import com.tntu.server.docs.core.data.exceptions.auth.RegistrationProblemsException;
+import com.tntu.server.docs.core.data.exceptions.user.ActionOnAdminRoleException;
+import com.tntu.server.docs.core.data.exceptions.user.RoleNotFoundException;
+import com.tntu.server.docs.core.data.exceptions.user.UserAlreadyExistsException;
+import com.tntu.server.docs.core.data.exceptions.user.UserAlreadyRegisteredException;
+import com.tntu.server.docs.core.data.models.user.RegistrationModel;
+import com.tntu.server.docs.core.data.models.user.RoleModel;
+import com.tntu.server.docs.core.data.models.user.UserModel;
 import com.tntu.server.docs.core.options.SecureOptions;
 import com.tntu.server.docs.core.repositories.RegistrationRepository;
 import com.tntu.server.docs.core.services.mail.MailService;

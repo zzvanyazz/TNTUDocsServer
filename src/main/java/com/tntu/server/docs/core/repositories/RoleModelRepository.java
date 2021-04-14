@@ -1,6 +1,6 @@
 package com.tntu.server.docs.core.repositories;
 
-import com.tntu.server.docs.core.models.data.RoleModel;
+import com.tntu.server.docs.core.data.models.user.RoleModel;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

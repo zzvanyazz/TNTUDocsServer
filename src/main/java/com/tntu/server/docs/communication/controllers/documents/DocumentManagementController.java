@@ -3,7 +3,7 @@ package com.tntu.server.docs.communication.controllers.documents;
 import com.tntu.server.docs.communication.models.auth.AuthorityRole;
 import com.tntu.server.docs.communication.models.requests.path.MoveObjectRequest;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
-import com.tntu.server.docs.core.services.DocumentsService;
+import com.tntu.server.docs.core.services.FilesService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 public class DocumentManagementController {
 
     @Autowired
-    private DocumentsService documentsService;
+    private FilesService filesService;
 
 
     @ApiOperation("Save private file.")
@@ -27,7 +27,7 @@ public class DocumentManagementController {
     public ResponseEntity<?> saveNewPrivateFile(
             @RequestParam(required = false) String resource,
             @RequestPart MultipartFile request) throws Exception {
-        documentsService.saveFile(resource, true, request);
+        filesService.saveFile(resource, true, request);
         return ResponseEntityFactory.createOk();
     }
 
@@ -37,7 +37,7 @@ public class DocumentManagementController {
     public ResponseEntity<?> saveNewPublicFile(
             @RequestParam(required = false) String resource,
             @RequestPart MultipartFile request) throws Exception {
-        documentsService.saveFile(resource, false, request);
+        filesService.saveFile(resource, false, request);
 
         return ResponseEntityFactory.createOk();
     }
@@ -46,7 +46,7 @@ public class DocumentManagementController {
     @GetMapping(value = "/private")
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
     public ResponseEntity<?> getPrivateFile(@RequestParam @NotBlank String location) throws Exception {
-        var file = documentsService.getFile(location, true);
+        var file = filesService.getFile(location, true);
 
         return ResponseEntityFactory.createFile(file);
     }
@@ -54,7 +54,7 @@ public class DocumentManagementController {
     @ApiOperation("Get public file.")
     @GetMapping(value = "/public")
     public ResponseEntity<?> getPublicFile(@RequestParam @NotBlank String location) throws Exception {
-        var file = documentsService.getFile(location, false);
+        var file = filesService.getFile(location, false);
 
         return ResponseEntityFactory.createFile(file);
     }
@@ -64,7 +64,7 @@ public class DocumentManagementController {
     public ResponseEntity<?> getPublicFile(@RequestBody @NotBlank MoveObjectRequest request) throws Exception {
         String location = request.getLocation();
         String locationTo = request.getLocationTo();
-        documentsService.moveFile(location, locationTo);
+        filesService.moveFile(location, locationTo);
 
         return ResponseEntityFactory.createOk();
     }
@@ -72,7 +72,7 @@ public class DocumentManagementController {
     @ApiOperation("Delete public file")
     @DeleteMapping(value = "/public/delete")
     public ResponseEntity<?> deletePublicFile(@RequestParam @NotBlank String location) throws Exception {
-        documentsService.deleteFile(location);
+        filesService.deleteFile(location);
 
         return ResponseEntityFactory.createOk();
     }

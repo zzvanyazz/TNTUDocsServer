@@ -1,6 +1,6 @@
 package com.tntu.server.docs.db.mapping;
 
-import com.tntu.server.docs.core.models.data.RoleModel;
+import com.tntu.server.docs.core.data.models.user.RoleModel;
 import com.tntu.server.docs.db.entities.RoleEntity;
 
 public class RoleMapper {

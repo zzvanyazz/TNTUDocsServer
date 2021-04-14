@@ -1,10 +1,9 @@
 package com.tntu.server.docs.db.repositories.impl;
 
 import com.google.common.collect.Streams;
-import com.tntu.server.docs.core.models.data.RoleModel;
+import com.tntu.server.docs.core.data.models.user.RoleModel;
 import com.tntu.server.docs.core.repositories.RoleModelRepository;
 import com.tntu.server.docs.db.mapping.RoleMapper;
-import com.tntu.server.docs.db.mapping.UserMapper;
 import com.tntu.server.docs.db.repositories.db.RoleDatabaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

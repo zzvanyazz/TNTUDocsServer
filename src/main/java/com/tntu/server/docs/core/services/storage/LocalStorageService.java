@@ -1,9 +1,9 @@
 package com.tntu.server.docs.core.services.storage;
 
-import com.tntu.server.docs.core.models.data.BytesMultipartFile;
-import com.tntu.server.docs.core.models.data.FileModel;
-import com.tntu.server.docs.core.models.data.FolderModel;
-import com.tntu.server.docs.core.models.exceptions.file.*;
+import com.tntu.server.docs.core.data.models.file.BytesMultipartFile;
+import com.tntu.server.docs.core.data.models.file.FileModel;
+import com.tntu.server.docs.core.data.models.file.FolderModel;
+import com.tntu.server.docs.core.data.exceptions.file.*;
 import com.tntu.server.docs.core.options.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -147,13 +147,6 @@ public class LocalStorageService implements StorageService {
     @Override
     public String combine(String root, String... paths) throws InvalidResourceException {
         return parseToPath(root, paths).toString();
-    }
-
-    @Override
-    public String combineResource(String resource, boolean isPrivate) throws InvalidResourceException {
-        return combine(
-                (isPrivate ? storageOptions.getPrivateLocation() : storageOptions.getPublicLocation()),
-                (resource != null ? resource : ""));
     }
 
     @Override

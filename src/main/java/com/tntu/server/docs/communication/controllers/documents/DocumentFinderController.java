@@ -3,8 +3,8 @@ package com.tntu.server.docs.communication.controllers.documents;
 import com.tntu.server.docs.communication.models.mappings.DocumentsMapper;
 import com.tntu.server.docs.communication.models.requests.documents.FindFileRequest;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
-import com.tntu.server.docs.core.models.data.ExtendedFileModel;
-import com.tntu.server.docs.core.services.DocumentsService;
+import com.tntu.server.docs.core.data.models.file.ExtendedFileModel;
+import com.tntu.server.docs.core.services.FilesService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -21,12 +20,12 @@ import java.util.List;
 public class DocumentFinderController {
 
     @Autowired
-    private DocumentsService documentsService;
+    private FilesService filesService;
 
     @ApiOperation("Get public files tree.")
     @GetMapping(value = "/public/tree")
     public ResponseEntity<?> getPublicFilesTree(@RequestParam(required = false) String location) throws Exception {
-        var folder = documentsService.getPublicResourceTree(location);
+        var folder = filesService.getPublicResourceTree(location);
 
         return ResponseEntityFactory.createOk(folder);
     }
@@ -35,7 +34,7 @@ public class DocumentFinderController {
     @ApiOperation("Get private files tree.")
     @GetMapping(value = "/private/tree")
     public ResponseEntity<?> getPrivateFilesTree(@RequestParam(required = false) String location) throws Exception {
-        var folder = documentsService.getPrivateResourceTree(location);
+        var folder = filesService.getPrivateResourceTree(location);
 
         return ResponseEntityFactory.createOk(folder);
     }
@@ -44,7 +43,7 @@ public class DocumentFinderController {
     @GetMapping(value = "/find")
     public ResponseEntity<?> findPublicFiles(@RequestParam FindFileRequest findFileRequest) throws Exception {
         var findModel = DocumentsMapper.map(findFileRequest);
-        List<ExtendedFileModel> files = documentsService.findPublicFiles(findModel);
+        List<ExtendedFileModel> files = filesService.findPublicFiles(findModel);
 
         return ResponseEntityFactory.createOk(files);
     }

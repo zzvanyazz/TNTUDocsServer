@@ -1,7 +1,11 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.core.models.data.UserModel;
-import com.tntu.server.docs.core.models.exceptions.*;
+import com.tntu.server.docs.core.data.exceptions.auth.CanNotCreateUserException;
+import com.tntu.server.docs.core.data.exceptions.auth.LoginFailedException;
+import com.tntu.server.docs.core.data.exceptions.user.UserAlreadyExistsException;
+import com.tntu.server.docs.core.data.exceptions.user.UserIsBlockedException;
+import com.tntu.server.docs.core.data.exceptions.user.UserNotFoundException;
+import com.tntu.server.docs.core.data.models.user.UserModel;
 import com.tntu.server.docs.core.repositories.UserModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

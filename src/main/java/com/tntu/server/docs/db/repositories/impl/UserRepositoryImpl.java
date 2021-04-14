@@ -1,7 +1,7 @@
 package com.tntu.server.docs.db.repositories.impl;
 
 import com.google.common.collect.Streams;
-import com.tntu.server.docs.core.models.data.UserModel;
+import com.tntu.server.docs.core.data.models.user.UserModel;
 import com.tntu.server.docs.core.repositories.UserModelRepository;
 import com.tntu.server.docs.db.entities.UserEntity;
 import com.tntu.server.docs.db.mapping.UserMapper;

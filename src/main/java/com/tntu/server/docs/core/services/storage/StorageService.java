@@ -1,8 +1,8 @@
 package com.tntu.server.docs.core.services.storage;
 
-import com.tntu.server.docs.core.models.data.FolderModel;
-import com.tntu.server.docs.core.models.exceptions.file.InvalidResourceException;
-import com.tntu.server.docs.core.models.exceptions.file.*;
+import com.tntu.server.docs.core.data.models.file.FolderModel;
+import com.tntu.server.docs.core.data.exceptions.file.InvalidResourceException;
+import com.tntu.server.docs.core.data.exceptions.file.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +24,6 @@ public interface StorageService {
     void deleteDirectory(String location) throws CanNotDeleteDirectoryException, InvalidResourceException;
 
     String combine(String root, String... paths) throws InvalidResourceException;
-
-    String combineResource(String resource, boolean isPrivate) throws InvalidResourceException;
 
     void moveObject(String location, String locationTo) throws CanNotMoveException, InvalidResourceException;
 

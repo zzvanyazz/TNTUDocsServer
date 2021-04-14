@@ -1,6 +1,6 @@
 package com.tntu.server.docs.core.services.mail;
 
-import com.tntu.server.docs.core.models.exceptions.CanNotSendMailException;
+import com.tntu.server.docs.core.data.exceptions.auth.CanNotSendMailException;
 import com.tntu.server.docs.core.options.MailOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

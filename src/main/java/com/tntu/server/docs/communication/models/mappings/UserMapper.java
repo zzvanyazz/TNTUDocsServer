@@ -1,7 +1,7 @@
 package com.tntu.server.docs.communication.models.mappings;
 
 import com.tntu.server.docs.communication.models.dto.UserDto;
-import com.tntu.server.docs.core.models.data.UserModel;
+import com.tntu.server.docs.core.data.models.user.UserModel;
 
 public class UserMapper {
 

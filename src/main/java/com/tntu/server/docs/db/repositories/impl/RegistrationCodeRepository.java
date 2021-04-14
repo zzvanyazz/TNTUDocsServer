@@ -1,6 +1,6 @@
 package com.tntu.server.docs.db.repositories.impl;
 
-import com.tntu.server.docs.core.models.data.StartRegistrationModel;
+import com.tntu.server.docs.core.data.models.user.StartRegistrationModel;
 import com.tntu.server.docs.core.repositories.RegistrationRepository;
 import com.tntu.server.docs.db.mapping.RegistrationCodeMapper;
 import com.tntu.server.docs.db.repositories.db.RegistrationCodesDatabaseRepository;

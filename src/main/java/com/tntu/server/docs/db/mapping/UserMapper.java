@@ -1,6 +1,6 @@
 package com.tntu.server.docs.db.mapping;
 
-import com.tntu.server.docs.core.models.data.UserModel;
+import com.tntu.server.docs.core.data.models.user.UserModel;
 import com.tntu.server.docs.db.entities.UserEntity;
 
 public class UserMapper {

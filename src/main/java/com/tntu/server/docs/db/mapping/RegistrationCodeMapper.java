@@ -1,6 +1,6 @@
 package com.tntu.server.docs.db.mapping;
 
-import com.tntu.server.docs.core.models.data.StartRegistrationModel;
+import com.tntu.server.docs.core.data.models.user.StartRegistrationModel;
 import com.tntu.server.docs.db.entities.RegistrationCodeEntity;
 
 public class RegistrationCodeMapper {
