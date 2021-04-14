@@ -15,11 +15,11 @@ public interface DocumentRepository {
 
     Optional<DocumentModel> getDocument(long id);
 
+    Optional<DocumentModel> getDocument(String name);
+
     DocumentModel save(DocumentModel model);
 
     void delete(long id);
-
-    DocumentModel update(DocumentModel model);
 
     List<DocumentModel> getAllBySection(long section);
 
