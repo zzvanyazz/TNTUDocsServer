@@ -1,12 +1,11 @@
-package com.tntu.server.docs.core.data.models.docs;
+package com.tntu.server.docs.communication.models.requests.documents;
 
 import com.tntu.server.docs.core.data.enums.DocumentStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.OffsetDateTime;
 
-public class DocumentModel {
-
-    private long id;
+public class UpdateDocumentRequest {
 
     private long sectionId;
 
@@ -15,14 +14,6 @@ public class DocumentModel {
     private OffsetDateTime createTime;
 
     private DocumentStatus status;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public long getSectionId() {
         return sectionId;
@@ -54,12 +45,6 @@ public class DocumentModel {
 
     public void setStatus(DocumentStatus status) {
         this.status = status;
-    }
-
-    public boolean isNotVisible() {
-        if (status != null)
-            return !status.isVisible();
-        return false;
     }
 
 }

@@ -1,16 +1,22 @@
 package com.tntu.server.docs.communication.controllers.documents;
 
 import com.tntu.server.docs.communication.models.auth.AuthorityRole;
-import com.tntu.server.docs.communication.models.requests.path.MoveObjectRequest;
+import com.tntu.server.docs.communication.models.mappings.DocumentsMapper;
+import com.tntu.server.docs.communication.models.requests.documents.CreateDocumentRequest;
+import com.tntu.server.docs.communication.models.requests.documents.UpdateDocumentRequest;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
-import com.tntu.server.docs.core.services.FilesService;
+import com.tntu.server.docs.core.services.DocumentService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.constraints.NotBlank;
 
 @RestController
@@ -18,61 +24,47 @@ import javax.validation.constraints.NotBlank;
 public class DocumentManagementController {
 
     @Autowired
-    private FilesService filesService;
+    private DocumentService documentService;
 
-
-    @ApiOperation("Save private file.")
-    @PostMapping(value = "/private/save")
+    @ApiOperation("Create document.")
+    @PostMapping
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> saveNewPrivateFile(
-            @RequestParam(required = false) String resource,
-            @RequestPart MultipartFile request) throws Exception {
-        filesService.saveFile(resource, true, request);
-        return ResponseEntityFactory.createOk();
+    public ResponseEntity<?> createDocument(@RequestBody CreateDocumentRequest request) throws Exception {
+        var model = DocumentsMapper.toModel(request);
+        model = documentService.createDocument(model);
+
+        return ResponseEntityFactory.createCreated(model);
     }
 
-    @ApiOperation("Save public file.")
-    @PostMapping(value = "/public/save")
+    @ApiOperation("Upload file")
+    @PutMapping(value = "/{id}")
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> saveNewPublicFile(
-            @RequestParam(required = false) String resource,
-            @RequestPart MultipartFile request) throws Exception {
-        filesService.saveFile(resource, false, request);
-
-        return ResponseEntityFactory.createOk();
-    }
-
-    @ApiOperation("Get private files.")
-    @GetMapping(value = "/private")
-    @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> getPrivateFile(@RequestParam @NotBlank String location) throws Exception {
-        var file = filesService.getFile(location, true);
-
-        return ResponseEntityFactory.createFile(file);
-    }
-
-    @ApiOperation("Get public file.")
-    @GetMapping(value = "/public")
-    public ResponseEntity<?> getPublicFile(@RequestParam @NotBlank String location) throws Exception {
-        var file = filesService.getFile(location, false);
-
-        return ResponseEntityFactory.createFile(file);
-    }
-
-    @ApiOperation("Move file")
-    @PostMapping(value = "/public")
-    public ResponseEntity<?> getPublicFile(@RequestBody @NotBlank MoveObjectRequest request) throws Exception {
-        String location = request.getLocation();
-        String locationTo = request.getLocationTo();
-        filesService.moveFile(location, locationTo);
+    public ResponseEntity<?> uploadFile(
+            @PathVariable long id,
+            @RequestPart MultipartFile file) throws Exception {
+        documentService.uploadFile(id, file);
 
         return ResponseEntityFactory.createOk();
     }
 
-    @ApiOperation("Delete public file")
-    @DeleteMapping(value = "/public/delete")
-    public ResponseEntity<?> deletePublicFile(@RequestParam @NotBlank String location) throws Exception {
-        filesService.deleteFile(location);
+
+    @ApiOperation("Update document.")
+    @PatchMapping(value = "/{id}")
+    @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
+    public ResponseEntity<?> getPublicFile(
+            @PathVariable long id,
+            @RequestBody UpdateDocumentRequest request) throws Exception {
+        var document = DocumentsMapper.toModel(request);
+        documentService.updateDocument(id, document);
+
+        return ResponseEntityFactory.createOk();
+    }
+
+    @ApiOperation("Delete document.")
+    @DeleteMapping(value = "/{id}")
+    @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
+    public ResponseEntity<?> deletePublicFile(@PathVariable long id) throws Exception {
+        documentService.delete(id);
 
         return ResponseEntityFactory.createOk();
     }

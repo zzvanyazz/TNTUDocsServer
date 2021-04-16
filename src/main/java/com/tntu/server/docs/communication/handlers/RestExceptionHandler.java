@@ -8,7 +8,12 @@ import com.tntu.server.docs.core.data.exceptions.auth.CanNotCreateUserException;
 import com.tntu.server.docs.core.data.exceptions.auth.CanNotSendMailException;
 import com.tntu.server.docs.core.data.exceptions.auth.LoginFailedException;
 import com.tntu.server.docs.core.data.exceptions.auth.RegistrationCodeNotFoundException;
+import com.tntu.server.docs.core.data.exceptions.docs.DocumentAlreadyExistsException;
+import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotAvailableException;
+import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotExistsException;
 import com.tntu.server.docs.core.data.exceptions.file.*;
+import com.tntu.server.docs.core.data.exceptions.section.SectionAlreadyExistsException;
+import com.tntu.server.docs.core.data.exceptions.section.SectionNotExistsException;
 import com.tntu.server.docs.core.data.exceptions.user.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,6 +34,7 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
             InvalidTokenException.class,
             LoginFailedException.class,
             TokenBlockedException.class,
+            DocumentNotAvailableException.class,
     })
     protected ResponseEntity<?> handleForbidden(Exception exception, WebRequest request) {
         var response = ResponseFactory.createForbidden(exception);
@@ -42,6 +48,8 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
             RegistrationCodeNotFoundException.class,
             ResourceNotExistsException.class,
             FileNotExistsException.class,
+            DocumentNotExistsException.class,
+            SectionNotExistsException.class,
     })
     protected ResponseEntity<?> handleNotFound(Exception exception, WebRequest request) {
         var response = ResponseFactory.createNotFound(exception);
@@ -64,6 +72,8 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
             CanNotDeleteDirectoryException.class,
             CanNotMoveException.class,
             CanNotCreateDirectoryException.class,
+            DocumentAlreadyExistsException.class,
+            SectionAlreadyExistsException.class,
     })
     protected ResponseEntity<?> handleConflict(Exception exception, WebRequest request) {
         var response = ResponseFactory.createConflict(exception);

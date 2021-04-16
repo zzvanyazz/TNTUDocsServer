@@ -23,4 +23,6 @@ public interface DocumentRepository {
 
     List<DocumentModel> getAllBySection(long section);
 
+    List<DocumentModel> getAll();
+
 }

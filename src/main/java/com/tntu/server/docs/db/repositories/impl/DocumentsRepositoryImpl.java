@@ -60,4 +60,15 @@ public class DocumentsRepositoryImpl implements DocumentRepository {
                 .map(DocumentMapper::toModel)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<DocumentModel> getAll() {
+        var documents = repository.findAll();
+
+        return Streams.stream(documents)
+                .map(DocumentMapper::toModel)
+                .collect(Collectors.toList());
+    }
+
+
 }

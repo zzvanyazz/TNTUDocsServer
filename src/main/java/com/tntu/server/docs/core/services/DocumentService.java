@@ -1,6 +1,5 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.core.data.enums.DocumentStatus;
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentAlreadyExistsException;
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotExistsException;
 import com.tntu.server.docs.core.data.exceptions.file.*;
@@ -13,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DocumentService {
@@ -54,17 +53,16 @@ public class DocumentService {
         return documentRepository.getAllBySection(sectionId);
     }
 
-    public DocumentModel createDocument(DocumentModel document, MultipartFile file)
-            throws SectionNotExistsException, CanNotWriteFileException, InvalidResourceException,
-            DeleteFileException, FileAlreadyExistsException, DocumentAlreadyExistsException {
+    public DocumentModel createDocument(DocumentModel document)
+            throws SectionNotExistsException, DocumentAlreadyExistsException {
 
         if (documentRepository.exists(document.getName()))
             throw new DocumentAlreadyExistsException();
 
-        return save(document, file);
+        return save(document);
     }
 
-    public DocumentModel updateDocument(long id, DocumentModel newDocument, MultipartFile file) throws Exception {
+    public DocumentModel updateDocument(long id, DocumentModel newDocument) throws Exception {
         var document = getDocument(id);
 
         var updater = new Updater<>(document, newDocument);
@@ -72,7 +70,7 @@ public class DocumentService {
         updater.update(DocumentModel::getName, DocumentModel::setName);
         updater.update(DocumentModel::getCreateTime, DocumentModel::setCreateTime);
 
-        return save(document, file);
+        return save(document);
     }
 
     public void delete(long id) throws DocumentNotExistsException, SectionNotExistsException, InvalidResourceException, DeleteFileException {
@@ -84,22 +82,39 @@ public class DocumentService {
         documentRepository.delete(id);
     }
 
-    private DocumentModel save(DocumentModel document, MultipartFile file)
-            throws SectionNotExistsException, InvalidResourceException, DeleteFileException,
-            FileAlreadyExistsException, CanNotWriteFileException {
+    public List<DocumentModel> findDocuments(String name) {
+        return documentRepository.getAll()
+                .stream()
+                .filter(documentModel -> documentModel.getName().contains(name))
+                .collect(Collectors.toList());
+    }
 
-        if (sectionService.isExists(document.getSectionId()))
+    private DocumentModel save(DocumentModel document) throws SectionNotExistsException {
+        if (!sectionService.isExists(document.getSectionId()))
             throw new SectionNotExistsException();
         document = documentRepository.save(document);
 
+        return document;
+    }
+
+    public void uploadFile(long id, MultipartFile file)
+            throws DocumentNotExistsException, SectionNotExistsException, InvalidResourceException,
+            DeleteFileException, FileAlreadyExistsException, CanNotWriteFileException, CanNotCreateDirectoryException {
+        var document = getDocument(id);
         if (file != null && !file.isEmpty()) {
             var section = sectionService.getSection(document.getSectionId());
             var sectionName = section.getName();
-            var location = storageService.combine(sectionName, String.valueOf(document.getId()));
-            filesService.saveOrRewrite(location, file);
+            if (!storageService.isExists(sectionName))
+                storageService.createDirectory(sectionName);
+
+            var originalFilename = file.getOriginalFilename();
+            var fileName = String.valueOf(id);
+            if (originalFilename != null)
+                fileName += originalFilename.substring(originalFilename.lastIndexOf("."));
+
+            filesService.saveOrRewrite(sectionName, fileName, file);
         }
 
-        return document;
     }
 
 

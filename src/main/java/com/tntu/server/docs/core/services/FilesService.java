@@ -45,11 +45,12 @@ public class FilesService {
         storageService.deleteFile(location);
     }
 
-    public synchronized void saveOrRewrite(String location, MultipartFile file)
+    public synchronized void saveOrRewrite(String location, String name, MultipartFile file)
             throws InvalidResourceException, CanNotWriteFileException, FileAlreadyExistsException, DeleteFileException {
-        if (storageService.isExists(location))
-            storageService.deleteFile(location);
-        storageService.saveFile(location, file);
+        var resource = storageService.combine(location, name);
+        if (storageService.isExists(resource))
+            storageService.deleteFile(resource);
+        storageService.saveFile(location, name, file);
     }
 
     private FolderModel getFolderModel()

@@ -19,6 +19,8 @@ public class DocumentMapper {
     }
 
     public static List<DocumentModel> toModel(List<DocumentEntity> entities) {
+        if (entities == null)
+            return null;
         return entities
                 .stream()
                 .map(DocumentMapper::toModel)

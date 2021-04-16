@@ -1,9 +1,9 @@
 package com.tntu.server.docs.core.services.storage;
 
+import com.tntu.server.docs.core.data.exceptions.file.*;
 import com.tntu.server.docs.core.data.models.file.BytesMultipartFile;
 import com.tntu.server.docs.core.data.models.file.FileModel;
 import com.tntu.server.docs.core.data.models.file.FolderModel;
-import com.tntu.server.docs.core.data.exceptions.file.*;
 import com.tntu.server.docs.core.options.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,14 @@ public class LocalStorageService implements StorageService {
     @Override
     public void saveFile(String resource, MultipartFile multipartFile)
             throws CanNotWriteFileException, FileAlreadyExistsException, InvalidResourceException {
-        var fileLocation = parseToPath(resource, multipartFile.getOriginalFilename());
+        var fileName = multipartFile.getOriginalFilename();
+        saveFile(resource, fileName, multipartFile);
+    }
+
+    @Override
+    public void saveFile(String resource, String name, MultipartFile multipartFile)
+            throws InvalidResourceException, FileAlreadyExistsException, CanNotWriteFileException {
+        var fileLocation = parseToPath(resource, name);
         if (isExists(fileLocation.toString())) {
             throw new FileAlreadyExistsException();
         }
@@ -58,7 +65,6 @@ public class LocalStorageService implements StorageService {
             LOG.log(Level.WARNING, e.getMessage(), e);
             throw new CanNotWriteFileException();
         }
-
     }
 
     @Override

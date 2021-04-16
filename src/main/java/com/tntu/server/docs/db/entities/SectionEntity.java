@@ -8,12 +8,14 @@ import java.util.List;
 public class SectionEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
     private String name;
 
     @OneToMany
+    @JoinColumn(name = "section_id")
     private List<DocumentEntity> documents;
 
     public long getId() {
