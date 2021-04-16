@@ -15,6 +15,7 @@ public class DocumentMapper {
         documentModel.setName(entity.getName());
         documentModel.setCreateTime(entity.getCreateTime());
         documentModel.setStatus(entity.getStatus());
+        documentModel.setFileName(entity.getFileName());
         return documentModel;
     }
 
@@ -34,6 +35,7 @@ public class DocumentMapper {
         documentEntity.setName(model.getName());
         documentEntity.setCreateTime(model.getCreateTime());
         documentEntity.setStatus(model.getStatus());
+        documentEntity.setFileName(model.getFileName());
         return documentEntity;
     }
 

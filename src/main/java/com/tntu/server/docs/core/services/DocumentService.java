@@ -39,9 +39,16 @@ public class DocumentService {
             throws DocumentNotExistsException, SectionNotExistsException,
             InvalidResourceException, CanNotReadFileException, FileNotExistsException {
 
-        var documentId = getDocument(id).getId();
-        var section = sectionService.getSection(documentId);
-        var location = storageService.combine(section.getName(), String.valueOf(documentId));
+        var document = getDocument(id);
+        var section = sectionService.getSection(document.getSectionId());
+
+        var sectionName = section.getName();
+        var originalFileName = document.getFileName();
+
+        if (originalFileName == null || originalFileName.isEmpty())
+            throw new FileNotExistsException();
+
+        var location = storageService.combine(sectionName, originalFileName);
 
         return filesService.getFile(location);
     }
@@ -101,21 +108,24 @@ public class DocumentService {
             throws DocumentNotExistsException, SectionNotExistsException, InvalidResourceException,
             DeleteFileException, FileAlreadyExistsException, CanNotWriteFileException, CanNotCreateDirectoryException {
         var document = getDocument(id);
-        if (file != null && !file.isEmpty()) {
-            var section = sectionService.getSection(document.getSectionId());
-            var sectionName = section.getName();
-            if (!storageService.isExists(sectionName))
-                storageService.createDirectory(sectionName);
 
-            var originalFilename = file.getOriginalFilename();
-            var fileName = String.valueOf(id);
-            if (originalFilename != null)
-                fileName += originalFilename.substring(originalFilename.lastIndexOf("."));
+        if (file == null || file.isEmpty())
+            return;
 
-            filesService.saveOrRewrite(sectionName, fileName, file);
-        }
+        var section = sectionService.getSection(document.getSectionId());
+        var sectionName = section.getName();
 
+        if (!storageService.isExists(sectionName))
+            storageService.createDirectory(sectionName);
+
+        var originalFilename = file.getOriginalFilename();
+        var fileName = String.valueOf(id);
+        if (originalFilename != null)
+            fileName += originalFilename.substring(originalFilename.lastIndexOf("."));
+
+        filesService.saveOrRewrite(sectionName, fileName, file);
+        document.setFileName(fileName);
+        documentRepository.save(document);
     }
-
 
 }

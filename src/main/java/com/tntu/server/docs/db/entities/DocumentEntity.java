@@ -31,6 +31,9 @@ public class DocumentEntity {
     @Column(name = "status")
     private DocumentStatus status;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     public long getId() {
         return id;
     }
@@ -69,5 +72,13 @@ public class DocumentEntity {
 
     public void setStatus(DocumentStatus status) {
         this.status = status;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

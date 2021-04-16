@@ -21,9 +21,9 @@ public class DocumentFinderController {
     @Autowired
     private CurrentUserService currentUserService;
 
-    @ApiOperation("Get file.")
+    @ApiOperation("Get document info.")
     @GetMapping(value = "/get/{id}")
-    public ResponseEntity<?> getPublicFilesTree(@PathVariable long id) throws Exception {
+    public ResponseEntity<?> getDocument(@PathVariable long id) throws Exception {
         var file = documentService.getDocument(id);
 
         var status = file.getStatus();
@@ -32,6 +32,20 @@ public class DocumentFinderController {
         }
 
         return ResponseEntityFactory.createOk(file);
+    }
+
+    @ApiOperation("Load document file.")
+    @GetMapping(value = "/load/{id}")
+    public ResponseEntity<?> loadDocumentFile(@PathVariable long id) throws Exception {
+        var document = documentService.getDocument(id);
+
+        var status = document.getStatus();
+        if (!currentUserService.isGranted() && status.isVisible()) {
+            throw new DocumentNotAvailableException();
+        }
+        var file = documentService.loadFile(document.getId());
+
+        return ResponseEntityFactory.createFile(file);
     }
 
     @ApiOperation("Find public files.")
