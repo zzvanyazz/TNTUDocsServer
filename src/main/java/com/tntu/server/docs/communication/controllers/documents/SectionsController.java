@@ -32,7 +32,7 @@ public class SectionsController {
     @GetMapping("/get")
     public ResponseEntity<?> getSections() {
         var sections = sectionService.getAllSections();
-        if (!currentUserService.isGranted())
+        if (currentUserService.isNotGranted())
             sections.forEach(section -> section.getDocuments().removeIf(DocumentModel::isNotVisible));
 
         return ResponseEntityFactory.createOk(sections);
@@ -42,7 +42,7 @@ public class SectionsController {
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getSection(@PathVariable long id) throws SectionNotExistsException {
         var section = sectionService.getSection(id);
-        if (!currentUserService.isGranted())
+        if (currentUserService.isNotGranted())
             section.getDocuments().removeIf(DocumentModel::isNotVisible);
 
         return ResponseEntityFactory.createOk(section);

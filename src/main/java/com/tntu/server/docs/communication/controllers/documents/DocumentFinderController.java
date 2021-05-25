@@ -5,7 +5,6 @@ import com.tntu.server.docs.communication.services.auth.CurrentUserService;
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotAvailableException;
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.services.DocumentService;
-import com.tntu.server.docs.core.services.SectionService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class DocumentFinderController {
         var file = documentService.getDocument(id);
 
         var status = file.getStatus();
-        if (!currentUserService.isGranted() && status.isVisible()) {
+        if (currentUserService.isNotGranted() && status.isVisible()) {
             throw new DocumentNotAvailableException();
         }
 
@@ -40,7 +39,7 @@ public class DocumentFinderController {
         var document = documentService.getDocument(id);
 
         var status = document.getStatus();
-        if (!currentUserService.isGranted() && status.isVisible()) {
+        if (currentUserService.isNotGranted() && status.isVisible()) {
             throw new DocumentNotAvailableException();
         }
         var file = documentService.loadFile(document.getId());
@@ -52,7 +51,7 @@ public class DocumentFinderController {
     @GetMapping(value = "/find/{name}")
     public ResponseEntity<?> findPublicFiles(@PathVariable String name) {
         var documents = documentService.findDocuments(name);
-        if (!currentUserService.isGranted())
+        if (currentUserService.isNotGranted())
             documents.removeIf(DocumentModel::isNotVisible);
 
         return ResponseEntityFactory.createOk(documents);

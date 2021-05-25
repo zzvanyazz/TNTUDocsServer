@@ -26,11 +26,18 @@ public final class CurrentUserService {
                 .anyMatch(x -> Arrays.asList(authorities).contains(x));
     }
 
-    public boolean isGranted() {
-        return hasAuthority(AuthorityRole.ADMIN, AuthorityRole.MANAGER);
+    public boolean isNotGranted() {
+        if (!(getPrincipalObject() instanceof Principal))
+            return true;
+
+        return !hasAuthority(AuthorityRole.ADMIN, AuthorityRole.MANAGER);
     }
 
     public Principal getPrincipal() {
-        return (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (Principal) getPrincipalObject();
+    }
+
+    private Object getPrincipalObject() {
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

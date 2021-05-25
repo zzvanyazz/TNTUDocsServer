@@ -1,8 +1,11 @@
 package com.tntu.server.docs.communication.filters;
 
+import com.tntu.server.docs.communication.models.auth.Principal;
 import com.tntu.server.docs.communication.services.auth.VerificationAuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
@@ -13,18 +16,22 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Component
 public final class JwtFilter extends GenericFilterBean {
     private final static String AUTHORIZATION_HEADER_NAME = "Authorization";
     private final static String BEARER_AUTHORIZATION_PREFIX = "Bearer ";
+    private final static String ANONYMOUS_USER = "anonymousUser";
+
 
     @Autowired
     private VerificationAuthorizationService authService;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
 
         authenticate((HttpServletRequest) servletRequest);
 
@@ -35,11 +42,12 @@ public final class JwtFilter extends GenericFilterBean {
     private void authenticate(HttpServletRequest request) {
         extractToken(request)
                 .flatMap(token -> authService.authenticate(token))
-                .ifPresent(principal -> {
-                    var auth = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
+                .ifPresent(this::authenticate);
+    }
 
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                });
+    private void authenticate(Principal principal) {
+        var auth = new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
 
