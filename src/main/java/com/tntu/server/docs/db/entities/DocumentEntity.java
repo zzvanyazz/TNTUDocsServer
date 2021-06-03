@@ -18,7 +18,7 @@ public class DocumentEntity {
     private long id;
 
     @Column(name = "section_id")
-    private long sectionId;
+    private Long sectionId;
 
     @Column(name = "name")
     private String name;

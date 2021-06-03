@@ -6,10 +6,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class StorageOptions {
 
+    @Value("${storage.location.root}")
+    private String root;
     @Value("${storage.location.public}")
     private String publicLocation;
     @Value("${storage.location.private}")
     private String privateLocation;
+
+    public String getRoot() {
+        return root;
+    }
 
     public String getPublicLocation() {
         return publicLocation;

@@ -1,6 +1,8 @@
 package com.tntu.server.docs.core.data.exceptions.auth;
 
 import java.util.List;
+import com.tntu.server.docs.core.data.exceptions.DocsException;
+
 
 public class RegistrationProblemsException extends Exception {
 

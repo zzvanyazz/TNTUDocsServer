@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 
 public class UpdateDocumentRequest {
 
-    private long sectionId;
+    private Long sectionId;
 
     private String name;
 
@@ -15,11 +15,11 @@ public class UpdateDocumentRequest {
 
     private DocumentStatus status;
 
-    public long getSectionId() {
+    public Long getSectionId() {
         return sectionId;
     }
 
-    public void setSectionId(long sectionId) {
+    public void setSectionId(Long sectionId) {
         this.sectionId = sectionId;
     }
 

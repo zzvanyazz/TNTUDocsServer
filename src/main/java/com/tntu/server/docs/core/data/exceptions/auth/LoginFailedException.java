@@ -1,10 +1,11 @@
 package com.tntu.server.docs.core.data.exceptions.auth;
 
-public class LoginFailedException extends Exception {
+import com.tntu.server.docs.core.data.exceptions.DocsException;
+
+public class LoginFailedException extends DocsException {
+
     public LoginFailedException() {
-        this("Username or password is incorrect.");
+        super("Username or password is incorrect.");
     }
-    public LoginFailedException(String message) {
-        super(message);
-    }
+
 }

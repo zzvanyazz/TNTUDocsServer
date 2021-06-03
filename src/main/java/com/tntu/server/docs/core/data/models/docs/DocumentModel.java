@@ -8,7 +8,7 @@ public class DocumentModel {
 
     private long id;
 
-    private long sectionId;
+    private Long sectionId;
 
     private String name;
 
@@ -34,11 +34,11 @@ public class DocumentModel {
         this.id = id;
     }
 
-    public long getSectionId() {
+    public Long getSectionId() {
         return sectionId;
     }
 
-    public void setSectionId(long sectionId) {
+    public void setSectionId(Long sectionId) {
         this.sectionId = sectionId;
     }
 

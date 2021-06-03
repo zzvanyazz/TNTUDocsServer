@@ -6,9 +6,7 @@ import com.tntu.server.docs.communication.models.requests.sections.CreateSection
 import com.tntu.server.docs.communication.models.requests.sections.UpdateSectionRequest;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
 import com.tntu.server.docs.communication.services.auth.CurrentUserService;
-import com.tntu.server.docs.core.data.exceptions.file.CanNotCreateDirectoryException;
-import com.tntu.server.docs.core.data.exceptions.file.InvalidResourceException;
-import com.tntu.server.docs.core.data.exceptions.section.SectionAlreadyExistsException;
+import com.tntu.server.docs.core.data.exceptions.DocsException;
 import com.tntu.server.docs.core.data.exceptions.section.SectionNotExistsException;
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.services.SectionService;
@@ -51,8 +49,7 @@ public class SectionsController {
     @ApiOperation("Create new section")
     @PostMapping
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> createSection(@RequestBody CreateSectionRequest request)
-            throws SectionAlreadyExistsException, CanNotCreateDirectoryException, InvalidResourceException {
+    public ResponseEntity<?> createSection(@RequestBody CreateSectionRequest request) throws DocsException {
         var section = SectionMapper.toModel(request);
         section = sectionService.createSection(section);
 

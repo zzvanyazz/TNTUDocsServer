@@ -1,6 +1,8 @@
 package com.tntu.server.docs.core.data.exceptions.auth;
 
-public class CanNotCreateUserException extends Exception {
+import com.tntu.server.docs.core.data.exceptions.DocsException;
+
+public class CanNotCreateUserException extends DocsException {
     public CanNotCreateUserException() {
         super("Can not create user");
     }

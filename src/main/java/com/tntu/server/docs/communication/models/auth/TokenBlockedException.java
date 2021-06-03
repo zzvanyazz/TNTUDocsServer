@@ -1,4 +1,11 @@
 package com.tntu.server.docs.communication.models.auth;
 
-public class TokenBlockedException extends Exception {
+import com.tntu.server.docs.core.data.exceptions.DocsException;
+
+public class TokenBlockedException extends DocsException {
+
+    public TokenBlockedException() {
+        super("Token is blocked.");
+    }
+
 }

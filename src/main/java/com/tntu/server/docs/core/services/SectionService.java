@@ -1,14 +1,10 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotExistsException;
-import com.tntu.server.docs.core.data.exceptions.file.CanNotCreateDirectoryException;
-import com.tntu.server.docs.core.data.exceptions.file.DeleteFileException;
-import com.tntu.server.docs.core.data.exceptions.file.InvalidResourceException;
+import com.tntu.server.docs.core.data.exceptions.DocsException;
 import com.tntu.server.docs.core.data.exceptions.section.SectionAlreadyExistsException;
 import com.tntu.server.docs.core.data.exceptions.section.SectionNotExistsException;
 import com.tntu.server.docs.core.data.models.docs.SectionModel;
 import com.tntu.server.docs.core.repositories.SectionRepository;
-import com.tntu.server.docs.core.services.storage.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +24,7 @@ public class SectionService {
     private DocumentService documentService;
 
     @Autowired
-    private StorageService storageService;
+    private FilesService filesService;
 
     public List<SectionModel> getAllSections() {
         return sectionRepository.getAllSections();
@@ -51,14 +47,13 @@ public class SectionService {
         return sectionRepository.save(section);
     }
 
-    public SectionModel createSection(SectionModel model)
-            throws SectionAlreadyExistsException, InvalidResourceException, CanNotCreateDirectoryException {
+    public SectionModel createSection(SectionModel model) throws DocsException{
         var name = model.getName();
         if (sectionRepository.exists(name))
             throw new SectionAlreadyExistsException();
 
-        if (!storageService.isExists(name))
-            storageService.createDirectory(name);
+        if (!filesService.isExists(name))
+            filesService.createDirectory(name);
 
         return sectionRepository.save(model);
     }
@@ -72,7 +67,7 @@ public class SectionService {
             var documentId = document.getId();
             try {
                 documentService.delete(documentId);
-            } catch (DocumentNotExistsException | InvalidResourceException | DeleteFileException e) {
+            } catch (DocsException e) {
                 LOG.warn("Can not delete document", e);
             }
         }

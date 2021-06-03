@@ -1,6 +1,8 @@
 package com.tntu.server.docs.core.data.exceptions.auth;
 
-public class CanNotSendMailException extends Exception {
+import com.tntu.server.docs.core.data.exceptions.DocsException;
+
+public class CanNotSendMailException extends DocsException {
 
     public CanNotSendMailException(String mail) {
         super(String.format("Can not send letter to '%s'", mail));

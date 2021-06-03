@@ -1,6 +1,8 @@
 package com.tntu.server.docs.core.data.exceptions.user;
 
-public class RoleNotFoundException extends Exception {
+import com.tntu.server.docs.core.data.exceptions.DocsException;
+
+public class RoleNotFoundException extends DocsException {
 
     public RoleNotFoundException(String roleName) {
         super(String.format("Can not find role '%s'", roleName));

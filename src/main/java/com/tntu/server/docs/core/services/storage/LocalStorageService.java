@@ -1,15 +1,18 @@
 package com.tntu.server.docs.core.services.storage;
 
-import com.tntu.server.docs.core.data.exceptions.file.*;
+import com.google.common.collect.Lists;
+import com.tntu.server.docs.core.data.exceptions.storage.file.*;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotCreateDirectoryException;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotDeleteDirectoryException;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.InvalidResourceException;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.ResourceNotExistsException;
 import com.tntu.server.docs.core.data.models.file.BytesMultipartFile;
 import com.tntu.server.docs.core.data.models.file.FileModel;
 import com.tntu.server.docs.core.data.models.file.FolderModel;
 import com.tntu.server.docs.core.options.StorageOptions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,17 +32,6 @@ import java.util.stream.Collectors;
 public class LocalStorageService implements StorageService {
 
     private static final Logger LOG = Logger.getLogger(LocalStorageService.class.getName());
-
-    @Autowired
-    private StorageOptions storageOptions;
-
-    @PostConstruct
-    private void postConstruct() throws CanNotCreateDirectoryException, InvalidResourceException {
-        var publicLocation = storageOptions.getPublicLocation();
-        var privateLocation = storageOptions.getPrivateLocation();
-        createDirectory(privateLocation);
-        createDirectory(publicLocation);
-    }
 
     @Override
     public void saveFile(String resource, MultipartFile multipartFile)
@@ -210,11 +202,11 @@ public class LocalStorageService implements StorageService {
         return new FileModel(fileName, null);
     }
 
-    private Path parseToPath(String first, String... more) throws InvalidResourceException {
+    private Path parseToPath(String resource, String... more) throws InvalidResourceException {
         try {
-            var startsWithSlash = first.startsWith("/") || first.startsWith("\\") || first.isEmpty();
-            first = (startsWithSlash ? "" : "/") + first;
-            return Path.of(first, more);
+            var startsWithSlash = resource.startsWith("/") || resource.startsWith("\\") || resource.isEmpty();
+            resource = (startsWithSlash ? "" : "/") + resource;
+            return Path.of(resource, more);
         } catch (Exception e) {
             LOG.log(Level.WARNING, e.getMessage(), e);
             throw new InvalidResourceException();

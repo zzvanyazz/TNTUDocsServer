@@ -11,9 +11,10 @@ import com.tntu.server.docs.core.data.exceptions.auth.RegistrationCodeNotFoundEx
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentAlreadyExistsException;
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotAvailableException;
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotExistsException;
-import com.tntu.server.docs.core.data.exceptions.file.*;
 import com.tntu.server.docs.core.data.exceptions.section.SectionAlreadyExistsException;
 import com.tntu.server.docs.core.data.exceptions.section.SectionNotExistsException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.*;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.*;
 import com.tntu.server.docs.core.data.exceptions.user.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
