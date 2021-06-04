@@ -3,6 +3,7 @@ package com.tntu.server.docs.communication.models.responses;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.tntu.server.docs.communication.models.ErrorCode;
+import com.tntu.server.docs.core.data.exceptions.DocsException;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URLDecoder;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 
 public final class ResponseEntityFactory {
     private ResponseEntityFactory() {
@@ -73,15 +74,22 @@ public final class ResponseEntityFactory {
         return new ResponseEntity<>(Response.empty, HttpStatus.OK);
     }
 
-    public static ResponseEntity<?> createFile(MultipartFile file) throws IOException {
+    public static ResponseEntity<?> createFile(MultipartFile file) throws DocsException {
         var headers = new HttpHeaders();
-        var decodedFileName = URLEncoder.encode(file.getOriginalFilename(), StandardCharsets.UTF_8);
+        var originalFilename = Optional.ofNullable(file.getOriginalFilename()).orElse("no_name");
+        var decodedFileName = URLEncoder.encode(originalFilename, StandardCharsets.UTF_8);
         decodedFileName = decodedFileName.replaceAll("\\+", "%20");
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + decodedFileName);
 
         var size = file.getSize();
         var mediaType = MediaType.MULTIPART_FORM_DATA;
-        var resource = new InputStreamResource(file.getInputStream());
+        InputStream inputStream;
+        try {
+            inputStream = file.getInputStream();
+        } catch (IOException e) {
+            throw new DocsException("Can not load file.");
+        }
+        var resource = new InputStreamResource(inputStream);
 
         return ResponseEntity.ok()
                 .headers(headers)

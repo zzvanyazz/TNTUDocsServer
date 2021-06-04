@@ -2,8 +2,6 @@ package com.tntu.server.docs.core.services;
 
 import com.tntu.server.docs.core.data.exceptions.auth.CanNotCreateUserException;
 import com.tntu.server.docs.core.data.exceptions.auth.LoginFailedException;
-import com.tntu.server.docs.core.data.exceptions.user.UserAlreadyExistsException;
-import com.tntu.server.docs.core.data.exceptions.user.UserIsBlockedException;
 import com.tntu.server.docs.core.data.exceptions.user.UserNotFoundException;
 import com.tntu.server.docs.core.data.models.user.UserModel;
 import com.tntu.server.docs.core.repositories.UserModelRepository;
@@ -23,17 +21,13 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    public UserModel login(String username, String password) throws LoginFailedException, UserIsBlockedException {
+    public UserModel login(String email, String password) throws LoginFailedException {
         var user = userModelRepository
-                .findLive(username.toLowerCase())
+                .findLive(email)
                 .orElseThrow(LoginFailedException::new);
 
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
             throw new LoginFailedException();
-        }
-
-        if (!user.isEnabled()) {
-            throw new UserIsBlockedException();
         }
         return user;
     }
@@ -71,10 +65,7 @@ public class UserService {
     }
 
     public UserModel createNewUser(UserModel newUserModel)
-            throws UserAlreadyExistsException, CanNotCreateUserException {
-        var normalisedUserName = newUserModel.getNormalizedUsername();
-        if (userModelRepository.existsByName(normalisedUserName))
-            throw new UserAlreadyExistsException(normalisedUserName);
+            throws CanNotCreateUserException {
 
         var user = userModelRepository.createUser(newUserModel);
         return user.orElseThrow(CanNotCreateUserException::new);

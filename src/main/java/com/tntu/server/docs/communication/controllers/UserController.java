@@ -5,6 +5,7 @@ import com.tntu.server.docs.communication.models.mappings.RoleMapper;
 import com.tntu.server.docs.communication.models.mappings.UserMapper;
 import com.tntu.server.docs.communication.models.requests.AssignUserRoleRequest;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
+import com.tntu.server.docs.core.data.exceptions.DocsException;
 import com.tntu.server.docs.core.data.exceptions.user.ActionOnAdminRoleException;
 import com.tntu.server.docs.core.data.exceptions.user.RoleNotFoundException;
 import com.tntu.server.docs.core.data.exceptions.user.UserNotFoundException;
@@ -34,7 +35,7 @@ public class UserController {
 
     @ApiOperation("Get user info.")
     @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getUser(@PathVariable long userId) throws Exception {
+    public ResponseEntity<?> getUser(@PathVariable long userId) throws DocsException {
         var userModel = userService.getUser(userId);
         var userDto = UserMapper.toDto(userModel);
         return ResponseEntity.ok(userDto);

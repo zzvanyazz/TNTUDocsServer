@@ -1,7 +1,7 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.core.data.models.user.RoleModel;
 import com.tntu.server.docs.core.data.exceptions.user.RoleNotFoundException;
+import com.tntu.server.docs.core.data.models.user.RoleModel;
 import com.tntu.server.docs.core.repositories.RoleModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

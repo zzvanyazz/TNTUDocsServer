@@ -50,7 +50,7 @@ public class RegistrationController {
     @ApiOperation("Register.")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(@RequestBody RegistrationModel registration)
-            throws RegistrationCodeNotFoundException, UserAlreadyExistsException, CanNotCreateUserException {
+            throws RegistrationCodeNotFoundException, CanNotCreateUserException {
         var userModel = registrationService.register(registration);
         var dto = UserMapper.toDto(userModel);
         return ResponseEntityFactory.createCreated(dto);

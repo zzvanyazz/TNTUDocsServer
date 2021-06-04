@@ -2,7 +2,7 @@ package com.tntu.server.docs.db.mapping;
 
 import com.tntu.server.docs.core.data.models.user.UserRoleModel;
 import com.tntu.server.docs.db.entities.UserRoleEntity;
-import com.tntu.server.docs.db.models.UserRoleKey;
+import com.tntu.server.docs.db.entities.models.UserRoleKey;
 
 public class UserRoleMapper {
 

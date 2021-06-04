@@ -6,7 +6,6 @@ import com.tntu.server.docs.communication.models.requests.auth.AuthRequest;
 import com.tntu.server.docs.communication.models.requests.auth.RefreshTokenRequest;
 import com.tntu.server.docs.communication.models.responses.AuthResponseData;
 import com.tntu.server.docs.core.data.exceptions.auth.LoginFailedException;
-import com.tntu.server.docs.core.data.exceptions.user.UserIsBlockedException;
 import com.tntu.server.docs.core.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +23,11 @@ public class AuthorizeService {
     private TokenService tokenService;
 
 
-    public AuthResponseData authenticate(
-            AuthRequest request) throws LoginFailedException, UserIsBlockedException {
-        var user = userService.login(request.getUsername(), request.getPassword());
+    public AuthResponseData authenticate(AuthRequest request) throws LoginFailedException {
+        var email = request.getEmail();
+        var password = request.getPassword();
+
+        var user = userService.login(email, password);
 
         return tokenService.createAuthData(user);
     }

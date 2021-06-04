@@ -1,6 +1,5 @@
 package com.tntu.server.docs.db.repositories.db;
 
-import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.db.entities.DocumentEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

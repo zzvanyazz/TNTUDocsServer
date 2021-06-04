@@ -1,4 +1,4 @@
-package com.tntu.server.docs.db.models;
+package com.tntu.server.docs.db.entities.models;
 
 import java.io.Serializable;
 import java.util.Objects;

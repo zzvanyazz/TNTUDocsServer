@@ -1,4 +1,3 @@
-
 package com.tntu.server.docs.configs;
 
 import org.springframework.context.annotation.Configuration;

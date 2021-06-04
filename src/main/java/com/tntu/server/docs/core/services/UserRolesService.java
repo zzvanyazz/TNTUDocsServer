@@ -1,10 +1,10 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.core.data.models.user.RoleModel;
-import com.tntu.server.docs.core.data.models.user.UserRoleModel;
 import com.tntu.server.docs.core.data.exceptions.user.ActionOnAdminRoleException;
 import com.tntu.server.docs.core.data.exceptions.user.RoleNotFoundException;
 import com.tntu.server.docs.core.data.exceptions.user.UserNotFoundException;
+import com.tntu.server.docs.core.data.models.user.RoleModel;
+import com.tntu.server.docs.core.data.models.user.UserRoleModel;
 import com.tntu.server.docs.core.repositories.UserRolesModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,13 +49,13 @@ public class UserRolesService {
     }
 
     public List<RoleModel> getUserRoles(long userId) throws UserNotFoundException, RoleNotFoundException {
-        var roleIdList =  streamUserRoles(userId)
+        var roleIdList = streamUserRoles(userId)
                 .stream()
                 .map(UserRoleModel::getRoleId)
                 .collect(Collectors.toList());
         var userRoles = new ArrayList<RoleModel>();
 
-        for (Long id: roleIdList) {
+        for (Long id : roleIdList) {
             var role = roleService.getById(id);
             userRoles.add(role);
         }

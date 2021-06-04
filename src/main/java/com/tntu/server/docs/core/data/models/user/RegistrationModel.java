@@ -6,8 +6,6 @@ public class RegistrationModel {
 
     private String username;
 
-    private String normalizedUsername;
-
     private String password;
 
     public String getCode() {
@@ -24,14 +22,6 @@ public class RegistrationModel {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getNormalizedUsername() {
-        return normalizedUsername;
-    }
-
-    public void setNormalizedUsername(String normalizedUsername) {
-        this.normalizedUsername = normalizedUsername;
     }
 
     public String getPassword() {

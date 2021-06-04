@@ -4,10 +4,7 @@ import com.tntu.server.docs.core.data.exceptions.DocsException;
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentAlreadyExistsException;
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotExistsException;
 import com.tntu.server.docs.core.data.exceptions.section.SectionNotExistsException;
-import com.tntu.server.docs.core.data.exceptions.storage.file.CanNotReadFileException;
 import com.tntu.server.docs.core.data.exceptions.storage.file.FileNotExistsException;
-import com.tntu.server.docs.core.data.exceptions.storage.file.CanNotMoveException;
-import com.tntu.server.docs.core.data.exceptions.storage.resource.InvalidResourceException;
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.repositories.DocumentRepository;
 import com.tntu.server.docs.core.utils.Updater;
@@ -70,14 +67,15 @@ public class DocumentService {
         var oldSectionId = document.getSectionId();
         var newSectionId = newDocument.getSectionId();
 
+        if (newSectionId != null && !newSectionId.equals(oldSectionId))
+            moveDocument(document, newSectionId);
+
         var updater = new Updater<>(document, newDocument);
         updater.update(DocumentModel::getSectionId, DocumentModel::setSectionId);
         updater.update(DocumentModel::getName, DocumentModel::setName);
         updater.update(DocumentModel::getCreateTime, DocumentModel::setCreateTime);
 
         save(document);
-        if (newSectionId != null && !newSectionId.equals(oldSectionId))
-            moveDocument(document, newSectionId);
     }
 
     public void delete(long id) throws DocsException {
@@ -127,7 +125,6 @@ public class DocumentService {
     }
 
     private void moveDocument(DocumentModel documentModel, Long newSectionId) throws DocsException {
-
         var oldSectionId = documentModel.getSectionId();
 
         var oldSection = sectionService.getSection(oldSectionId);
@@ -138,6 +135,9 @@ public class DocumentService {
 
         var documentName = documentModel.getFileName();
         var oldFileLocation = filesService.combine(oldSectionName, documentName);
+
+        if (filesService.isExists(newSectionName))
+            filesService.createDirectory(newSectionName);
 
         filesService.moveFile(oldFileLocation, newSectionName);
     }

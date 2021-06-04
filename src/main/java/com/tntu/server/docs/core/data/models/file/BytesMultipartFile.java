@@ -3,7 +3,9 @@ package com.tntu.server.docs.core.data.models.file;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
 
 public class BytesMultipartFile implements MultipartFile {
 
@@ -43,16 +45,16 @@ public class BytesMultipartFile implements MultipartFile {
     }
 
     @Override
-    public byte[] getBytes() throws IOException {
+    public byte[] getBytes() {
         return content;
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
+    public InputStream getInputStream() {
         return inputStream;
     }
 
     @Override
-    public void transferTo(File dest) throws IOException, IllegalStateException {
+    public void transferTo(File dest) throws IllegalStateException {
     }
 }

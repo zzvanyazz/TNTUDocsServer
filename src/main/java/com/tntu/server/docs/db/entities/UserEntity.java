@@ -11,22 +11,16 @@ public final class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "username")
     private String username;
-
-    @Column(name = "normalized_username")
-    private String normalizedUsername;
 
     @Column(name = "password_hash")
     private String passwordHash;
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "enabled")
-    private boolean enabled;
 
     @Column(name = "delete_timestamp")
     private OffsetDateTime deleteTimestamp;
@@ -41,11 +35,11 @@ public final class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleEntity> roles;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,14 +49,6 @@ public final class UserEntity {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getNormalizedUsername() {
-        return normalizedUsername;
-    }
-
-    public void setNormalizedUsername(String normalizedUsername) {
-        this.normalizedUsername = normalizedUsername;
     }
 
     public String getPasswordHash() {
@@ -79,14 +65,6 @@ public final class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public OffsetDateTime getDeleteTimestamp() {

@@ -1,6 +1,6 @@
 package com.tntu.server.docs.db.entities;
 
-import com.tntu.server.docs.db.models.UserRoleKey;
+import com.tntu.server.docs.db.entities.models.UserRoleKey;
 
 import javax.persistence.*;
 

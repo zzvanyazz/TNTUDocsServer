@@ -4,17 +4,13 @@ import java.time.OffsetDateTime;
 
 public class UserModel {
 
-    private long id;
+    private Long id;
 
     private String username;
-
-    private String normalizedUsername;
 
     private String email;
 
     private String passwordHash;
-
-    private boolean enabled;
 
     private OffsetDateTime deleteTimestamp;
 
@@ -28,11 +24,11 @@ public class UserModel {
         this.email = email;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,28 +40,12 @@ public class UserModel {
         this.username = username;
     }
 
-    public String getNormalizedUsername() {
-        return normalizedUsername;
-    }
-
-    public void setNormalizedUsername(String normalizedUsername) {
-        this.normalizedUsername = normalizedUsername;
-    }
-
     public String getPasswordHash() {
         return passwordHash;
     }
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public OffsetDateTime getDeleteTimestamp() {

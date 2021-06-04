@@ -17,7 +17,7 @@ public class MailSender extends JavaMailSenderImpl {
     private MailOptions mailOptions;
 
     @PostConstruct
-    private void init() {
+    public void init() {
         setHost(mailOptions.getMailHost());
         setPort(mailOptions.getMailPort());
 

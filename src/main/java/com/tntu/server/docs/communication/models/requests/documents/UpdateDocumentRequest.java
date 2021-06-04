@@ -1,7 +1,6 @@
 package com.tntu.server.docs.communication.models.requests.documents;
 
 import com.tntu.server.docs.core.data.enums.DocumentStatus;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.OffsetDateTime;
 

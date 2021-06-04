@@ -11,15 +11,11 @@ public interface UserModelRepository {
 
     List<UserModel> getAll();
 
-    Optional<UserModel> findLive(String normalizedUsername);
+    Optional<UserModel> findLive(String email);
 
     Optional<UserModel> findActive(String normalizedUsername);
 
     Optional<UserModel> findActive(Long id);
-
-    Optional<UserModel> findByName(String normalizedUsername);
-
-    boolean existsByName(String normalizedUsername);
 
     boolean existsById(long id);
 

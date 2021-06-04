@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailOptions {
 
-   /* @Value("${mail.content.registration}")
-    private String registrationMailContent;*/
+    @Value("${mail.content.registration}")
+    private String registrationMailContent;
     @Value("${mail.host}")
     private String mailHost;
     @Value("${mail.port}")
@@ -26,9 +26,9 @@ public class MailOptions {
     private boolean useDebug;
 
 
-   /*public String getRegistrationMailContent() {
+   public String getRegistrationMailContent() {
         return registrationMailContent;
-    }*/
+    }
 
     public String getMailHost() {
         return mailHost;

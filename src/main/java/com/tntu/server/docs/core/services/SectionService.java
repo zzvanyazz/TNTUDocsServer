@@ -47,7 +47,7 @@ public class SectionService {
         return sectionRepository.save(section);
     }
 
-    public SectionModel createSection(SectionModel model) throws DocsException{
+    public SectionModel createSection(SectionModel model) throws DocsException {
         var name = model.getName();
         if (sectionRepository.exists(name))
             throw new SectionAlreadyExistsException();

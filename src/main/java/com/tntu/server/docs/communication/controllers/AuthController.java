@@ -6,6 +6,7 @@ import com.tntu.server.docs.communication.models.requests.auth.AuthRequest;
 import com.tntu.server.docs.communication.models.requests.auth.RefreshTokenRequest;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
 import com.tntu.server.docs.communication.services.auth.AuthorizeService;
+import com.tntu.server.docs.core.data.exceptions.DocsException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,8 +32,7 @@ public class AuthController {
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login(
             @Validated @RequestBody AuthRequest request,
-            BindingResult bindingResult
-    ) throws Exception {
+            BindingResult bindingResult) throws DocsException {
         if (bindingResult.hasErrors()) {
             return ResponseEntityFactory.createBadRequest(bindingResult);
         }

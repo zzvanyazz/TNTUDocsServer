@@ -14,8 +14,14 @@ import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotExistsException
 import com.tntu.server.docs.core.data.exceptions.section.SectionAlreadyExistsException;
 import com.tntu.server.docs.core.data.exceptions.section.SectionNotExistsException;
 import com.tntu.server.docs.core.data.exceptions.storage.file.*;
-import com.tntu.server.docs.core.data.exceptions.storage.resource.*;
-import com.tntu.server.docs.core.data.exceptions.user.*;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotCreateDirectoryException;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotDeleteDirectoryException;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.InvalidResourceException;
+import com.tntu.server.docs.core.data.exceptions.storage.resource.ResourceNotExistsException;
+import com.tntu.server.docs.core.data.exceptions.user.ActionOnAdminRoleException;
+import com.tntu.server.docs.core.data.exceptions.user.RoleNotFoundException;
+import com.tntu.server.docs.core.data.exceptions.user.UserAlreadyExistsException;
+import com.tntu.server.docs.core.data.exceptions.user.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +68,6 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
             CanNotCreateUserException.class,
             CanNotSendMailException.class,
             UserAlreadyExistsException.class,
-            UserIsBlockedException.class,
             ActionOnAdminRoleException.class,
             CanNotReadFileException.class,
             InvalidResourceException.class,
