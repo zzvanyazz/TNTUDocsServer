@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,6 +60,7 @@ public class SectionService {
         return sectionRepository.save(model);
     }
 
+    @Transactional
     public void deleteSection(long id) throws SectionNotExistsException {
         if (!sectionRepository.exists(id))
             throw new SectionNotExistsException();
@@ -68,10 +71,9 @@ public class SectionService {
             try {
                 documentService.delete(documentId);
             } catch (DocsException e) {
-                LOG.warn("Can not delete document", e);
+                LOG.warn("Can not delete document");
             }
         }
-
 
         sectionRepository.deleteSection(id);
     }

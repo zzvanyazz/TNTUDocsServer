@@ -14,10 +14,6 @@ public class SectionEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "section_id")
-    private List<DocumentEntity> documents;
-
     public long getId() {
         return id;
     }
@@ -32,13 +28,5 @@ public class SectionEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<DocumentEntity> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(List<DocumentEntity> documents) {
-        this.documents = documents;
     }
 }

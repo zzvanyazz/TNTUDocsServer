@@ -46,7 +46,7 @@ public class DocumentManagementController {
     @ApiOperation("Update document.")
     @PatchMapping(value = "/{id}")
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> getPublicFile(
+    public ResponseEntity<?> updateDocument(
             @PathVariable long id,
             @RequestBody UpdateDocumentRequest request) throws DocsException {
         var document = DocumentsMapper.toModel(request);
@@ -58,7 +58,7 @@ public class DocumentManagementController {
     @ApiOperation("Delete document.")
     @DeleteMapping(value = "/{id}")
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> deletePublicFile(@PathVariable long id) throws DocsException {
+    public ResponseEntity<?> deleteFile(@PathVariable long id) throws DocsException {
         documentService.delete(id);
 
         return ResponseEntityFactory.createOk();

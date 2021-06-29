@@ -8,6 +8,8 @@ import com.tntu.server.docs.core.data.exceptions.storage.file.FileNotExistsExcep
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.repositories.DocumentRepository;
 import com.tntu.server.docs.core.utils.Updater;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class DocumentService {
+
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private DocumentRepository documentRepository;
@@ -83,8 +87,8 @@ public class DocumentService {
         var sectionName = sectionService.getSection(document.getSectionId()).getName();
 
         var fileLocation = filesService.combine(sectionName, document.getName());
-        filesService.deleteFile(fileLocation);
         documentRepository.delete(id);
+        filesService.deleteFile(fileLocation);
     }
 
     public List<DocumentModel> findDocuments(String name) {

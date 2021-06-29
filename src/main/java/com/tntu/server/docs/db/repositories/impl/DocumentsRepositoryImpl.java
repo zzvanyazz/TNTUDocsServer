@@ -1,13 +1,14 @@
 package com.tntu.server.docs.db.repositories.impl;
 
-import com.google.common.collect.Streams;
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.repositories.DocumentRepository;
 import com.tntu.server.docs.db.mapping.DocumentMapper;
 import com.tntu.server.docs.db.repositories.db.DocumentsDatabaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,15 +49,17 @@ public class DocumentsRepositoryImpl implements DocumentRepository {
     }
 
     @Override
+    @Transactional
+    @Modifying
     public void delete(long id) {
-        repository.findById(id);
+        repository.delete(id);
     }
 
     @Override
     public List<DocumentModel> getAllBySection(long section) {
         var documents = repository.findAll();
 
-        return Streams.stream(documents)
+        return documents.stream()
                 .map(DocumentMapper::toModel)
                 .collect(Collectors.toList());
     }
@@ -65,7 +68,7 @@ public class DocumentsRepositoryImpl implements DocumentRepository {
     public List<DocumentModel> getAll() {
         var documents = repository.findAll();
 
-        return Streams.stream(documents)
+        return documents.stream()
                 .map(DocumentMapper::toModel)
                 .collect(Collectors.toList());
     }
