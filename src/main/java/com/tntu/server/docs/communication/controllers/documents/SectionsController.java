@@ -68,7 +68,7 @@ public class SectionsController {
     @ApiOperation("Update section")
     @PatchMapping(value = "/{id}")
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> updateSection(@RequestParam UpdateSectionRequest request, @PathVariable long id)
+    public ResponseEntity<?> updateSection(@RequestBody UpdateSectionRequest request, @PathVariable long id)
             throws SectionNotExistsException {
         var name = request.getName();
         var section = sectionService.updateSection(id, name);
