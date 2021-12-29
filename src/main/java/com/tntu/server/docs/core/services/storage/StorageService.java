@@ -14,7 +14,7 @@ public interface StorageService {
 
     void saveFile(String resource, String name, MultipartFile multipartFile) throws CanNotWriteFileException, FileAlreadyExistsException, InvalidResourceException;
 
-    MultipartFile loadFile(String resource) throws FileNotExistsException, CanNotReadFileException, InvalidResourceException;
+    byte[] loadFile(String resource) throws FileNotExistsException, CanNotReadFileException, InvalidResourceException;
 
     boolean isExists(String resource) throws InvalidResourceException;
 

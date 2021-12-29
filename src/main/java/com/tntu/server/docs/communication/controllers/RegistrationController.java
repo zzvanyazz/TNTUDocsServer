@@ -1,6 +1,5 @@
 package com.tntu.server.docs.communication.controllers;
 
-
 import com.tntu.server.docs.communication.models.auth.AuthorityRole;
 import com.tntu.server.docs.communication.models.mappings.RegistrationMapper;
 import com.tntu.server.docs.communication.models.mappings.UserMapper;
@@ -11,7 +10,6 @@ import com.tntu.server.docs.core.data.exceptions.auth.RegistrationCodeNotFoundEx
 import com.tntu.server.docs.core.data.exceptions.auth.RegistrationProblemsException;
 import com.tntu.server.docs.core.data.exceptions.user.ActionOnAdminRoleException;
 import com.tntu.server.docs.core.data.exceptions.user.RoleNotFoundException;
-import com.tntu.server.docs.core.data.exceptions.user.UserAlreadyExistsException;
 import com.tntu.server.docs.core.data.models.user.RegistrationModel;
 import com.tntu.server.docs.core.services.RegistrationService;
 import io.swagger.annotations.ApiOperation;

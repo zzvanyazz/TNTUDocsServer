@@ -8,8 +8,6 @@ import com.tntu.server.docs.core.data.exceptions.storage.file.FileNotExistsExcep
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.repositories.DocumentRepository;
 import com.tntu.server.docs.core.utils.Updater;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,8 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class DocumentService {
-
-    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private DocumentRepository documentRepository;
@@ -48,8 +44,10 @@ public class DocumentService {
             throw new FileNotExistsException();
 
         var location = filesService.combine(sectionName, originalFileName);
-
-        return filesService.getFile(location);
+        var fileName = document.getName();
+        if (originalFileName.contains("."))
+            fileName += originalFileName.substring(originalFileName.lastIndexOf("."));
+        return filesService.getFile(location, fileName);
     }
 
     public List<DocumentModel> getDocumentsBySection(long sectionId) throws SectionNotExistsException {

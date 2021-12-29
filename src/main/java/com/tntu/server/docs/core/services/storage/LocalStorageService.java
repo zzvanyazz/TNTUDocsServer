@@ -48,20 +48,16 @@ public class LocalStorageService implements StorageService {
     }
 
     @Override
-    public MultipartFile loadFile(String resource)
+    public byte[] loadFile(String resource)
             throws FileNotExistsException, CanNotReadFileException, InvalidResourceException {
         if (!isExists(resource))
             throw new FileNotExistsException();
         var path = parseToPath(resource);
-        byte[] bytes;
         try {
-            bytes = Files.readAllBytes(path);
+            return Files.readAllBytes(path);
         } catch (IOException e) {
             throw new CanNotReadFileException();
         }
-        var fileName = path.getFileName().toString();
-        LOG.log(Level.INFO, String.format("File Loaded. Location - %s", resource));
-        return new BytesMultipartFile(fileName, bytes);
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.tntu.server.docs.core.data.exceptions.storage.file.FileAlreadyExistsE
 import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotCreateDirectoryException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.InvalidResourceException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.ResourceNotExistsException;
+import com.tntu.server.docs.core.data.models.file.BytesMultipartFile;
 import com.tntu.server.docs.core.services.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,9 @@ public class FilesService {
         storageService.saveFile(resource, file);
     }
 
-    public MultipartFile getFile(String location) throws DocsException {
-        return storageService.loadFile(location);
+    public MultipartFile getFile(String location, String name) throws DocsException {
+        var fileBytes = storageService.loadFile(location);
+        return new BytesMultipartFile(name, fileBytes);
     }
 
     public void moveFile(String fileLocation, String pathLocation)

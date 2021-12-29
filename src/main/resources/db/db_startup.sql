@@ -1,3 +1,4 @@
+create type document_status as enum ('ACTIVE', 'INOPERATIVE', 'ARCHIVED');
 CREATE TABLE users
 (
     id                    BIGSERIAL           NOT NULL PRIMARY KEY,

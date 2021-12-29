@@ -31,7 +31,7 @@ public class DocumentFinderController {
         var file = documentService.getDocument(id);
 
         var status = file.getStatus();
-        if (currentUserService.isNotGranted() && status.isVisible()) {
+        if (currentUserService.isNotGranted() && !status.isVisible()) {
             throw new DocumentNotAvailableException();
         }
 
@@ -44,7 +44,7 @@ public class DocumentFinderController {
         var document = documentService.getDocument(id);
 
         var status = document.getStatus();
-        if (currentUserService.isNotGranted() && status.isVisible()) {
+        if (currentUserService.isNotGranted() && !status.isVisible()) {
             throw new DocumentNotAvailableException();
         }
         var file = documentService.loadFile(document.getId());
