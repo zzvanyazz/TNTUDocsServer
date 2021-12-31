@@ -22,10 +22,10 @@ public class LocalStorageService implements StorageService {
     private static final Logger LOG = Logger.getLogger(LocalStorageService.class.getName());
 
     @Override
-    public void saveFile(String resource, MultipartFile multipartFile)
+    public void saveFile(String location, MultipartFile multipartFile)
             throws CanNotWriteFileException, FileAlreadyExistsException, InvalidResourceException {
         var fileName = multipartFile.getOriginalFilename();
-        saveFile(resource, fileName, multipartFile);
+        saveFile(location, fileName, multipartFile);
     }
 
     @Override

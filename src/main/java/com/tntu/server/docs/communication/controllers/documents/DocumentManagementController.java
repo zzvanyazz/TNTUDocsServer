@@ -5,6 +5,7 @@ import com.tntu.server.docs.communication.models.mappings.DocumentsMapper;
 import com.tntu.server.docs.communication.models.requests.documents.CreateDocumentRequest;
 import com.tntu.server.docs.communication.models.requests.documents.UpdateDocumentRequest;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
+import com.tntu.server.docs.communication.services.document.VisualiseDocumentService;
 import com.tntu.server.docs.core.data.exceptions.DocsException;
 import com.tntu.server.docs.core.services.DocumentService;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +21,9 @@ public class DocumentManagementController {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    private VisualiseDocumentService visualiseDocumentService;
 
     @ApiOperation("Create document.")
     @PostMapping
@@ -38,7 +42,7 @@ public class DocumentManagementController {
             @PathVariable long id,
             @RequestPart MultipartFile file) throws DocsException {
         documentService.uploadFile(id, file);
-
+        visualiseDocumentService.removeFromCash(id);
         return ResponseEntityFactory.createOk();
     }
 

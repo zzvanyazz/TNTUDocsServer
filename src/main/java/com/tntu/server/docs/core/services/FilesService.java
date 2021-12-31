@@ -32,9 +32,9 @@ public class FilesService {
         storageService.createDirectory(resource);
     }
 
-    public void saveFile(String resource, MultipartFile file)
+    public void saveFile(String location, MultipartFile file)
             throws CanNotWriteFileException, FileAlreadyExistsException, InvalidResourceException {
-        storageService.saveFile(resource, file);
+        storageService.saveFile(location, file);
     }
 
     public MultipartFile getFile(String location, String name) throws DocsException {
