@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.Pattern;
 
 @RestController
 @RequestMapping("/v1/docs")
@@ -55,6 +58,18 @@ public class DocumentFinderController {
         return ResponseEntityFactory.createFile(file);
     }
 
+    @ApiOperation("Find public files.")
+    @GetMapping(value = "/find/{name}")
+    public ResponseEntity<?> findPublicFiles(
+            @PathVariable
+            @Pattern(regexp = "^[а-яА-Яa-zA-Z0-9 .()і]", message = "Invalid searching text") String name) {
+        var documents = documentService.findDocuments(name);
+        if (currentUserService.isNotGranted())
+            documents.removeIf(DocumentModel::isNotVisible);
+
+        return ResponseEntityFactory.createOk(documents);
+    }
+
     @ApiOperation("Load document visualisation.")
     @GetMapping(value = "/load/{id}/pdf")
     public ResponseEntity<?> loadDocumentVisualisation(@PathVariable long id) throws DocsException {
@@ -65,18 +80,12 @@ public class DocumentFinderController {
             throw new DocumentNotAvailableException();
         }
 
-        var file = visualiseDocumentService.loadDocumentVisualisation(document.getId());
+        MultipartFile file;
+        if (document.getFileName().endsWith(".pdf"))
+            file = documentService.loadFile(id);
+        else
+            file = visualiseDocumentService.loadDocumentVisualisation(document.getId());
 
         return ResponseEntityFactory.createFile(file);
-    }
-
-    @ApiOperation("Find public files.")
-    @GetMapping(value = "/find/{name}")
-    public ResponseEntity<?> findPublicFiles(@PathVariable String name) {
-        var documents = documentService.findDocuments(name);
-        if (currentUserService.isNotGranted())
-            documents.removeIf(DocumentModel::isNotVisible);
-
-        return ResponseEntityFactory.createOk(documents);
     }
 }

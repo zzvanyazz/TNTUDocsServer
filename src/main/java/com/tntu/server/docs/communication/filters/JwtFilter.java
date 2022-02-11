@@ -37,7 +37,7 @@ public final class JwtFilter extends GenericFilterBean {
 
     private void authenticate(HttpServletRequest request) {
         extractToken(request)
-                .flatMap(token -> authService.authenticate(token))
+                .flatMap(authService::authenticate)
                 .ifPresent(this::authenticate);
     }
 

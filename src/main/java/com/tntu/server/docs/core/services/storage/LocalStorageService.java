@@ -4,7 +4,8 @@ import com.tntu.server.docs.core.data.exceptions.storage.file.*;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotCreateDirectoryException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotDeleteDirectoryException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.InvalidResourceException;
-import com.tntu.server.docs.core.data.models.file.BytesMultipartFile;
+import com.tntu.server.docs.core.options.StorageOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +22,9 @@ import java.util.logging.Logger;
 public class LocalStorageService implements StorageService {
 
     private static final Logger LOG = Logger.getLogger(LocalStorageService.class.getName());
+
+    @Autowired
+    private StorageOptions storageOptions;
 
     @Override
     public void saveFile(String location, MultipartFile multipartFile)
@@ -31,7 +36,7 @@ public class LocalStorageService implements StorageService {
     @Override
     public void saveFile(String resource, String name, MultipartFile multipartFile)
             throws InvalidResourceException, FileAlreadyExistsException, CanNotWriteFileException {
-        var fileLocation = parseToPath(resource, name);
+        var fileLocation = Path.of(storageOptions.getRoot()).resolve(parseToPath(resource, name));
         if (isExists(fileLocation.toString())) {
             throw new FileAlreadyExistsException();
         }
@@ -52,7 +57,7 @@ public class LocalStorageService implements StorageService {
             throws FileNotExistsException, CanNotReadFileException, InvalidResourceException {
         if (!isExists(resource))
             throw new FileNotExistsException();
-        var path = parseToPath(resource);
+        var path = Path.of(storageOptions.getRoot()).resolve(parseToPath(resource));
         try {
             return Files.readAllBytes(path);
         } catch (IOException e) {
@@ -62,7 +67,7 @@ public class LocalStorageService implements StorageService {
 
     @Override
     public boolean isExists(String resource) throws InvalidResourceException {
-        var path = parseToPath(resource);
+        var path = Path.of(storageOptions.getRoot()).resolve(parseToPath(resource));
         return Files.exists(path);
     }
 
@@ -70,7 +75,7 @@ public class LocalStorageService implements StorageService {
     public void deleteFile(String resource)
             throws DeleteFileException, InvalidResourceException {
         try {
-            var path = parseToPath(resource);
+            var path = Path.of(storageOptions.getRoot()).resolve(parseToPath(resource));
             if (!Files.isRegularFile(path))
                 throw new DeleteFileException();
 
@@ -87,7 +92,8 @@ public class LocalStorageService implements StorageService {
             throws CanNotCreateDirectoryException, InvalidResourceException {
         if (!isExists(location)) {
             try {
-                Files.createDirectory(parseToPath(location));
+                var path = Path.of(storageOptions.getRoot()).resolve(parseToPath(location));
+                Files.createDirectory(path);
                 LOG.log(Level.INFO, String.format("Directory created. Location - %s", location));
             } catch (IOException e) {
                 LOG.log(Level.WARNING, e.getMessage(), e);
@@ -99,7 +105,7 @@ public class LocalStorageService implements StorageService {
     @Override
     public void deleteDirectory(String location) throws CanNotDeleteDirectoryException, InvalidResourceException {
         try {
-            var path = parseToPath(location);
+            var path = Path.of(storageOptions.getRoot()).resolve(parseToPath(location));
             if (!Files.isDirectory(path))
                 throw new CanNotDeleteDirectoryException();
 
@@ -122,8 +128,8 @@ public class LocalStorageService implements StorageService {
     @Override
     public void moveObject(String location, String locationTo)
             throws CanNotMoveException, InvalidResourceException {
-        var path = parseToPath(location);
-        var pathTo = parseToPath(locationTo);
+        var path = Path.of(storageOptions.getRoot()).resolve(parseToPath(location));
+        var pathTo = Path.of(storageOptions.getRoot()).resolve(parseToPath(locationTo));
         try {
             Files.move(path, pathTo, StandardCopyOption.ATOMIC_MOVE);
             LOG.log(Level.INFO, String.format("Object moved. Location - %s. Location to - %s", location, locationTo));
@@ -135,9 +141,8 @@ public class LocalStorageService implements StorageService {
 
     private Path parseToPath(String resource, String... more) throws InvalidResourceException {
         try {
-            var startsWithSlash = resource.startsWith("/") || resource.startsWith("\\") || resource.isEmpty();
-            resource = (startsWithSlash ? "" : "/") + resource;
-            return Path.of(resource, more);
+            resource = resource.replaceFirst("/", "");
+            return Path.of(resource, more).normalize();
         } catch (Exception e) {
             LOG.log(Level.WARNING, e.getMessage(), e);
             throw new InvalidResourceException();

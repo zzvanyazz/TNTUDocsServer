@@ -62,8 +62,11 @@ public class FilesService {
     public synchronized void saveOrRewrite(String location, String name, MultipartFile file)
             throws InvalidResourceException, CanNotWriteFileException, FileAlreadyExistsException, DeleteFileException {
         var resource = storageService.combine(location, name);
-        if (storageService.isExists(resource))
-            storageService.deleteFile(resource);
+        if (storageService.isExists(resource)) {
+            try {
+                storageService.deleteFile(resource);
+            }catch (Exception ignored) {}
+        }
         storageService.saveFile(location, name, file);
     }
 

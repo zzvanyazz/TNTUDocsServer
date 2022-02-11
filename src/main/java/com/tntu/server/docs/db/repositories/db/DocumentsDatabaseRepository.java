@@ -1,5 +1,6 @@
 package com.tntu.server.docs.db.repositories.db;
 
+import com.tntu.server.docs.core.data.enums.DocumentStatus;
 import com.tntu.server.docs.db.entities.DocumentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,5 +25,7 @@ public interface DocumentsDatabaseRepository extends JpaRepository<DocumentEntit
     @Modifying
     @Query("DELETE FROM DocumentEntity WHERE id = :id")
     void delete(long id);
+
+    List<DocumentEntity> findAllByNameContains(String find);
 
 }

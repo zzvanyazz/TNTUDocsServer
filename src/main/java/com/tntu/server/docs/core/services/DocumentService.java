@@ -90,10 +90,7 @@ public class DocumentService {
     }
 
     public List<DocumentModel> findDocuments(String name) {
-        return documentRepository.getAll()
-                .stream()
-                .filter(documentModel -> documentModel.getName().contains(name))
-                .collect(Collectors.toList());
+        return documentRepository.find(name);
     }
 
     private DocumentModel save(DocumentModel document) throws SectionNotExistsException {

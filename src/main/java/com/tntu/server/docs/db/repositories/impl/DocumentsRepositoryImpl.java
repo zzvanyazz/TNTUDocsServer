@@ -1,7 +1,9 @@
 package com.tntu.server.docs.db.repositories.impl;
 
+import com.tntu.server.docs.core.data.enums.DocumentStatus;
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.repositories.DocumentRepository;
+import com.tntu.server.docs.db.entities.DocumentEntity;
 import com.tntu.server.docs.db.mapping.DocumentMapper;
 import com.tntu.server.docs.db.repositories.db.DocumentsDatabaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +71,14 @@ public class DocumentsRepositoryImpl implements DocumentRepository {
         var documents = repository.findAll();
 
         return documents.stream()
+                .map(DocumentMapper::toModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DocumentModel> find(String find) {
+        return repository.findAllByNameContains(find)
+                .stream()
                 .map(DocumentMapper::toModel)
                 .collect(Collectors.toList());
     }

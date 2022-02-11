@@ -2,6 +2,7 @@ package com.tntu.server.docs.communication.handlers;
 
 import com.tntu.server.docs.communication.models.auth.InvalidTokenException;
 import com.tntu.server.docs.communication.models.auth.TokenBlockedException;
+import com.tntu.server.docs.communication.models.exceptions.UnsupportedFileExtensionException;
 import com.tntu.server.docs.communication.models.responses.Response;
 import com.tntu.server.docs.communication.models.responses.ResponseFactory;
 import com.tntu.server.docs.core.data.exceptions.auth.CanNotCreateUserException;
@@ -80,6 +81,7 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
             CanNotCreateDirectoryException.class,
             DocumentAlreadyExistsException.class,
             SectionAlreadyExistsException.class,
+            UnsupportedFileExtensionException.class,
     })
     protected ResponseEntity<?> handleConflict(Exception exception, WebRequest request) {
         var response = ResponseFactory.createConflict(exception);
