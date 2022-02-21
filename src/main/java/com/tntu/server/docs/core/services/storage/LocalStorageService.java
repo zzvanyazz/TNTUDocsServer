@@ -13,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,7 +140,8 @@ public class LocalStorageService implements StorageService {
 
     private Path parseToPath(String resource, String... more) throws InvalidResourceException {
         try {
-            resource = resource.replaceFirst("/", "");
+            if (resource.charAt(0) == '/')
+                resource = resource.replaceFirst("/", "");
             return Path.of(resource, more).normalize();
         } catch (Exception e) {
             LOG.log(Level.WARNING, e.getMessage(), e);

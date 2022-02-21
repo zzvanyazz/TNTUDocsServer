@@ -11,7 +11,9 @@ import javax.annotation.PostConstruct;
 
 @Service
 public class JodConverterStarter {
+
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private ConverterOptions converterOptions;
 

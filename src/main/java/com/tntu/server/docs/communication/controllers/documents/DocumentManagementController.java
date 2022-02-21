@@ -10,10 +10,13 @@ import com.tntu.server.docs.core.data.exceptions.DocsException;
 import com.tntu.server.docs.core.services.DocumentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/docs")
@@ -28,7 +31,7 @@ public class DocumentManagementController {
     @ApiOperation("Create document.")
     @PostMapping
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> createDocument(@RequestBody CreateDocumentRequest request) throws DocsException {
+    public ResponseEntity<?> createDocument(@Valid @RequestBody CreateDocumentRequest request) throws DocsException {
         var model = DocumentsMapper.toModel(request);
         model = documentService.createDocument(model);
 
@@ -52,7 +55,7 @@ public class DocumentManagementController {
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
     public ResponseEntity<?> updateDocument(
             @PathVariable long id,
-            @RequestBody UpdateDocumentRequest request) throws DocsException {
+            @Valid @RequestBody UpdateDocumentRequest request) throws DocsException {
         var document = DocumentsMapper.toModel(request);
         documentService.updateDocument(id, document);
 

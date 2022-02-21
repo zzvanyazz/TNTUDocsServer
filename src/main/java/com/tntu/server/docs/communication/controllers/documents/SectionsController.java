@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/v1/sections")
 public class SectionsController {
@@ -49,7 +51,7 @@ public class SectionsController {
     @ApiOperation("Create new section")
     @PostMapping
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> createSection(@RequestBody CreateSectionRequest request) throws DocsException {
+    public ResponseEntity<?> createSection(@Valid @RequestBody CreateSectionRequest request) throws DocsException {
         var section = SectionMapper.toModel(request);
         section = sectionService.createSection(section);
 
@@ -68,7 +70,7 @@ public class SectionsController {
     @ApiOperation("Update section")
     @PatchMapping(value = "/{id}")
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> updateSection(@RequestBody UpdateSectionRequest request, @PathVariable long id)
+    public ResponseEntity<?> updateSection(@Valid @RequestBody UpdateSectionRequest request, @PathVariable long id)
             throws SectionNotExistsException {
         var name = request.getName();
         var section = sectionService.updateSection(id, name);

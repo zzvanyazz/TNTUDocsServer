@@ -8,11 +8,7 @@ public class UserDto {
 
     private String username;
 
-    private String normalizedUsername;
-
     private String email;
-
-    private boolean enabled;
 
     private OffsetDateTime deleteTimestamp;
 
@@ -33,22 +29,6 @@ public class UserDto {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getNormalizedUsername() {
-        return normalizedUsername;
-    }
-
-    public void setNormalizedUsername(String normalizedUsername) {
-        this.normalizedUsername = normalizedUsername;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public String getEmail() {
