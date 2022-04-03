@@ -43,8 +43,7 @@ create table users
     delete_timestamp      timestamp,
     email                 varchar(255),
     password_hash         varchar(255),
-    username              varchar(255),
-    valid_token_timestamp timestamp
+    username              varchar(255)
 );
 
 create table user_roles

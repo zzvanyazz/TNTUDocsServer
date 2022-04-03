@@ -1,13 +1,17 @@
 package com.tntu.server.docs.communication.filters;
 
+import com.tntu.server.docs.communication.models.auth.InvalidTokenException;
 import com.tntu.server.docs.communication.models.auth.Principal;
 import com.tntu.server.docs.communication.services.auth.VerificationAuthorizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
+import javax.mail.AuthenticationFailedException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -21,6 +25,7 @@ public final class JwtFilter extends GenericFilterBean {
     private final static String AUTHORIZATION_HEADER_NAME = "Authorization";
     private final static String BEARER_AUTHORIZATION_PREFIX = "Bearer ";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtFilter.class);
 
     @Autowired
     private VerificationAuthorizationService authService;
@@ -29,16 +34,21 @@ public final class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
-        authenticate((HttpServletRequest) servletRequest);
-
+        try {
+            authenticate((HttpServletRequest) servletRequest);
+        } catch (InvalidTokenException | AuthenticationFailedException e) {
+            LOGGER.warn("Authorization error", e);
+        }
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
 
-    private void authenticate(HttpServletRequest request) {
-        extractToken(request)
-                .flatMap(authService::authenticate)
-                .ifPresent(this::authenticate);
+    private void authenticate(HttpServletRequest request) throws InvalidTokenException, AuthenticationFailedException {
+        var token = extractToken(request);
+        if (token.isEmpty())
+            return;
+        var principals = authService.authenticate(token.get());
+        authenticate(principals);
     }
 
     private void authenticate(Principal principal) {

@@ -14,8 +14,6 @@ public class UserModel {
 
     private OffsetDateTime deleteTimestamp;
 
-    private OffsetDateTime validTokenTimestamp;
-
     public String getEmail() {
         return email;
     }
@@ -56,11 +54,4 @@ public class UserModel {
         this.deleteTimestamp = deleteTimestamp;
     }
 
-    public OffsetDateTime getValidTokenTimestamp() {
-        return validTokenTimestamp;
-    }
-
-    public void setValidTokenTimestamp(OffsetDateTime validTokenTimestamp) {
-        this.validTokenTimestamp = validTokenTimestamp;
-    }
 }

@@ -1,13 +1,16 @@
 package com.tntu.server.docs.communication.models.requests.auth;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
+import static com.tntu.server.docs.communication.models.Validation.MAX_LENGTH;
 
 public class AuthRequest {
 
     @NotBlank
-    @Size(max = 128)
+    @Length(max = MAX_LENGTH)
     private String email;
 
     @NotEmpty

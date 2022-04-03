@@ -12,9 +12,6 @@ public class UserDto {
 
     private OffsetDateTime deleteTimestamp;
 
-    private OffsetDateTime validTokenTimestamp;
-
-
     public long getId() {
         return id;
     }
@@ -45,14 +42,6 @@ public class UserDto {
 
     public void setDeleteTimestamp(OffsetDateTime deleteTimestamp) {
         this.deleteTimestamp = deleteTimestamp;
-    }
-
-    public OffsetDateTime getValidTokenTimestamp() {
-        return validTokenTimestamp;
-    }
-
-    public void setValidTokenTimestamp(OffsetDateTime validTokenTimestamp) {
-        this.validTokenTimestamp = validTokenTimestamp;
     }
 
 }

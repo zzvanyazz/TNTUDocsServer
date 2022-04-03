@@ -25,9 +25,6 @@ public final class UserEntity {
     @Column(name = "delete_timestamp")
     private OffsetDateTime deleteTimestamp;
 
-    @Column(name = "valid_token_timestamp")
-    private OffsetDateTime validTokenTimestamp;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
@@ -73,14 +70,6 @@ public final class UserEntity {
 
     public void setDeleteTimestamp(OffsetDateTime deleteTimestamp) {
         this.deleteTimestamp = deleteTimestamp;
-    }
-
-    public OffsetDateTime getValidTokenTimestamp() {
-        return validTokenTimestamp;
-    }
-
-    public void setValidTokenTimestamp(OffsetDateTime validTokenTimestamp) {
-        this.validTokenTimestamp = validTokenTimestamp;
     }
 
     public List<RoleEntity> getRoles() {

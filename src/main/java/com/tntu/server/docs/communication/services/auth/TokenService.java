@@ -58,16 +58,18 @@ public class TokenService {
         var token = new Token();
         token.setUserId(Long.parseLong(claims.getSubject()));
         token.setIssuedAt(claims.getIssuedAt().toInstant().atOffset(ZoneOffset.UTC));
+        token.setExpiration(claims.getExpiration().toInstant().atOffset(ZoneOffset.UTC));
 
         return token;
     }
 
-    public boolean isTokenBlocked(UserModel user, Token token) {
-        return user.getValidTokenTimestamp() != null &&
-                token != null &&
-                user.getValidTokenTimestamp()
-                        .minusSeconds(tokenOptions.getAllowedClockSkewSeconds())
-                        .isAfter(token.getIssuedAt());
+    public void assertTokenValid(Token token) throws InvalidTokenException {
+        if (token == null)
+            throw new InvalidTokenException("Token is invalid");
+        var currentTime = OffsetDateTime.now();
+        var tokenExpiration = token.getExpiration();
+        if (currentTime.isAfter(tokenExpiration))
+            throw new InvalidTokenException("Token expired");
     }
 
     public AuthResponseData createAuthData(UserModel user) {

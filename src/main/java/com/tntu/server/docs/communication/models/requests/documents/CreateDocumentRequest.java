@@ -8,14 +8,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.OffsetDateTime;
 
+import static com.tntu.server.docs.communication.models.Validation.MAX_LENGTH;
+import static com.tntu.server.docs.communication.models.Validation.NAME_PATTERN;
+
 public class CreateDocumentRequest {
 
     @NotNull
     private Long sectionId;
 
     @NotBlank
-    @Length(max = 120)
-    @Pattern(regexp = "^[а-яА-Яa-zA-Z0-9 .()і]", message = "Invalid document name")
+    @Length(max = MAX_LENGTH)
+    @Pattern(regexp = NAME_PATTERN, message = "Invalid document name")
     private String name;
 
     @NotNull

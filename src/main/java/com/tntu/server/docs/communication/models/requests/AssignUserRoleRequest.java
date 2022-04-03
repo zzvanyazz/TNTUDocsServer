@@ -7,11 +7,11 @@ public class AssignUserRoleRequest {
     @NotNull
     private Long roleId;
 
-    public long getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(long roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 }

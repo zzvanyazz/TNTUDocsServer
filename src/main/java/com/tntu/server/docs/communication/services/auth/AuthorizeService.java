@@ -37,11 +37,7 @@ public class AuthorizeService {
     ) throws InvalidTokenException, AuthenticationFailedException, TokenBlockedException {
         var token = tokenService.parseRefreshToken(request.getToken());
         var user = userService.findActiveUser(token.getUserId());
-
-        if (tokenService.isTokenBlocked(user, token)) {
-            throw new TokenBlockedException();
-        }
-
+        tokenService.assertTokenValid(token);
         return tokenService.createAuthData(user);
     }
 

@@ -3,18 +3,20 @@ package com.tntu.server.docs.communication.models.requests.documents;
 import com.tntu.server.docs.core.data.enums.DocumentStatus;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.OffsetDateTime;
+
+import static com.tntu.server.docs.communication.models.Validation.MAX_LENGTH;
+import static com.tntu.server.docs.communication.models.Validation.NAME_PATTERN;
 
 public class UpdateDocumentRequest {
 
     @NotNull
     private Long sectionId;
 
-    @Length(max = 120)
-    @Pattern(regexp = "^[а-яА-Яa-zA-Z0-9 .()і]", message = "Invalid document name")
+    @Length(max = MAX_LENGTH)
+    @Pattern(regexp = NAME_PATTERN, message = "Invalid document name")
     private String name;
 
     private OffsetDateTime createTime;

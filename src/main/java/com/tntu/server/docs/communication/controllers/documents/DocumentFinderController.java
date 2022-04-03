@@ -1,5 +1,6 @@
 package com.tntu.server.docs.communication.controllers.documents;
 
+import com.tntu.server.docs.communication.models.Validation;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
 import com.tntu.server.docs.communication.services.auth.CurrentUserService;
 import com.tntu.server.docs.communication.services.document.VisualiseDocumentService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Pattern;
+
+import static com.tntu.server.docs.communication.models.Validation.NAME_PATTERN;
 
 @RestController
 @RequestMapping("/v1/docs")
@@ -62,7 +65,7 @@ public class DocumentFinderController {
     @GetMapping(value = "/find/{name}")
     public ResponseEntity<?> findPublicFiles(
             @PathVariable
-            @Pattern(regexp = "^[а-яА-Яa-zA-Z0-9 .()і]", message = "Invalid searching text") String name) {
+            @Pattern(regexp = NAME_PATTERN, message = "Invalid searching text") String name) {
         var documents = documentService.findDocuments(name);
         if (currentUserService.isNotGranted())
             documents.removeIf(DocumentModel::isNotVisible);

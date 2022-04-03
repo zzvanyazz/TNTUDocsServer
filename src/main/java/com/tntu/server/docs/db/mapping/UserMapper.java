@@ -12,7 +12,6 @@ public class UserMapper {
         userEntity.setPasswordHash(userModel.getPasswordHash());
         userEntity.setEmail(userModel.getEmail());
         userEntity.setDeleteTimestamp(userModel.getDeleteTimestamp());
-        userEntity.setValidTokenTimestamp(userModel.getValidTokenTimestamp());
         return userEntity;
     }
 
@@ -23,7 +22,6 @@ public class UserMapper {
         userModel.setPasswordHash(userEntity.getPasswordHash());
         userModel.setEmail(userEntity.getEmail());
         userModel.setDeleteTimestamp(userEntity.getDeleteTimestamp());
-        userModel.setValidTokenTimestamp(userEntity.getValidTokenTimestamp());
         return userModel;
     }
 

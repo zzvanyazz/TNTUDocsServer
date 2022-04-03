@@ -11,7 +11,6 @@ public class UserMapper {
         userDto.setUsername(userModel.getUsername());
         userDto.setEmail(userModel.getEmail());
         userDto.setDeleteTimestamp(userModel.getDeleteTimestamp());
-        userDto.setValidTokenTimestamp(userModel.getValidTokenTimestamp());
         return userDto;
     }
 
@@ -21,7 +20,6 @@ public class UserMapper {
         userModel.setUsername(userDto.getUsername());
         userModel.setEmail(userDto.getEmail());
         userModel.setDeleteTimestamp(userDto.getDeleteTimestamp());
-        userModel.setValidTokenTimestamp(userDto.getValidTokenTimestamp());
         return userModel;
     }
 

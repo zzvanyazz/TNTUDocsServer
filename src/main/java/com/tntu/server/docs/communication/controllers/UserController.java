@@ -16,10 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @RestController
@@ -62,13 +61,11 @@ public class UserController {
     @Secured({AuthorityRole.ADMIN})
     public ResponseEntity<?> assignRole(
             @PathVariable long userId,
-            @RequestBody @Validated AssignUserRoleRequest request,
-            BindingResult bindingResult)
+            @RequestBody @Valid AssignUserRoleRequest request)
             throws UserNotFoundException, RoleNotFoundException, ActionOnAdminRoleException {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntityFactory.createBadRequest(bindingResult);
-        }
+
         userRolesService.assignUserRole(userId, request.getRoleId());
+
         return ResponseEntityFactory.createOk();
     }
 
@@ -77,12 +74,9 @@ public class UserController {
     @Secured({AuthorityRole.ADMIN})
     public ResponseEntity<?> removeAssignRole(
             @PathVariable long userId,
-            @RequestBody @Validated AssignUserRoleRequest request,
-            BindingResult bindingResult)
+            @RequestBody @Valid AssignUserRoleRequest request)
             throws UserNotFoundException, RoleNotFoundException, ActionOnAdminRoleException {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntityFactory.createBadRequest(bindingResult);
-        }
+
         userRolesService.removeAssignUserRole(userId, request.getRoleId());
         return ResponseEntityFactory.createOk();
     }

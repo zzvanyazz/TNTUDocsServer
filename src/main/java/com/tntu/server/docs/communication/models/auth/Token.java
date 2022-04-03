@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 public final class Token {
     private long userId;
     private OffsetDateTime issuedAt;
+    private OffsetDateTime expiration;
 
     public long getUserId() {
         return userId;
@@ -20,5 +21,13 @@ public final class Token {
 
     public void setIssuedAt(OffsetDateTime issuedAt) {
         this.issuedAt = issuedAt;
+    }
+
+    public OffsetDateTime getExpiration() {
+        return expiration;
+    }
+
+    public void setExpiration(OffsetDateTime expiration) {
+        this.expiration = expiration;
     }
 }
