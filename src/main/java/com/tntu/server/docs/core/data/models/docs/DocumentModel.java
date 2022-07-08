@@ -3,6 +3,7 @@ package com.tntu.server.docs.core.data.models.docs;
 import com.tntu.server.docs.core.data.enums.DocumentStatus;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
 public class DocumentModel {
 

@@ -7,6 +7,7 @@ import com.tntu.server.docs.communication.services.document.convert.ConvertServi
 import com.tntu.server.docs.core.data.exceptions.DocsException;
 import com.tntu.server.docs.core.data.models.file.BytesMultipartFile;
 import com.tntu.server.docs.core.services.DocumentService;
+import com.zaxxer.hikari.util.ConcurrentBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +18,9 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,6 +37,7 @@ public class VisualiseDocumentService {
 
 
     public VisualiseDocumentService(@Autowired List<ConvertService> convertServices) {
+        
         this.convertServices = convertServices.stream()
                 .collect(Collectors.toMap(ConvertService::getFormat, Function.identity()));
     }
@@ -53,6 +57,8 @@ public class VisualiseDocumentService {
     private CashedFile loadFileVisualisation(long id) throws DocsException {
         var model = documentService.getDocument(id);
         var fileName = model.getFileName();
+        if (fileName == null)
+            throw new DocsException("No file not uploaded.");
         var fileExtension = getPartFromDot(fileName, fileName::substring);
         if (!convertServices.containsKey(fileExtension))
             throw new UnsupportedFileExtensionException();

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +32,7 @@ public class DocumentManagementController {
     @ApiOperation("Create document.")
     @PostMapping
     @Secured({AuthorityRole.ADMIN, AuthorityRole.MANAGER})
-    public ResponseEntity<?> createDocument(@Valid @RequestBody CreateDocumentRequest request) throws DocsException {
+    public ResponseEntity<?> createDocument(@Validated @RequestBody CreateDocumentRequest request) throws DocsException {
         var model = DocumentsMapper.toModel(request);
         model = documentService.createDocument(model);
 

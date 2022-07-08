@@ -76,6 +76,7 @@ public class DocumentService {
         updater.update(DocumentModel::getSectionId, DocumentModel::setSectionId);
         updater.update(DocumentModel::getName, DocumentModel::setName);
         updater.update(DocumentModel::getCreateTime, DocumentModel::setCreateTime);
+        updater.update(DocumentModel::getStatus, DocumentModel::setStatus);
 
         save(document);
     }
