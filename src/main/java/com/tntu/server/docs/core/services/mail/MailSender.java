@@ -2,13 +2,12 @@ package com.tntu.server.docs.core.services.mail;
 
 import com.tntu.server.docs.core.models.exceptions.CanNotSendMailException;
 import com.tntu.server.docs.core.options.MailOptions;
+import java.util.Properties;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.Properties;
 
 @Service
 public class MailSender extends JavaMailSenderImpl {
@@ -26,9 +25,9 @@ public class MailSender extends JavaMailSenderImpl {
 
         Properties props = getJavaMailProperties();
         props.put("mail.transport.protocol", mailOptions.getMailTransportProtocol());
-        props.put("mail.smtp.auth", mailOptions.useSmtpAuth());
-        props.put("mail.smtp.starttls.enable", mailOptions.useSmtpStarttls());
-        props.put("mail.debug", mailOptions.useDebug());
+        props.put("mail.smtp.auth", mailOptions.isUseSmtpAuth());
+        props.put("mail.smtp.starttls.enable", mailOptions.isUseSmtpStarttls());
+        props.put("mail.debug", mailOptions.isUseDebug());
     }
 
     public void sendMail(String email, String subject, String content) throws CanNotSendMailException {

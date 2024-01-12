@@ -7,7 +7,8 @@ import com.tntu.server.docs.communication.models.requests.auth.RefreshTokenReque
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
 import com.tntu.server.docs.communication.services.auth.AuthorizeService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.mail.AuthenticationFailedException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,14 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.mail.AuthenticationFailedException;
-
 @RestController
 @RequestMapping("/v1/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthorizeService authService;
+    private final AuthorizeService authService;
 
 
     @ApiOperation("Authenticate user.")

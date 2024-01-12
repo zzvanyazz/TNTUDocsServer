@@ -1,11 +1,12 @@
 package com.tntu.server.docs.communication.options;
 
+import java.nio.charset.StandardCharsets;
+import java.time.Period;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.time.Period;
-
+@Getter
 @Service
 public final class TokenOptions {
     @Value("${jwt.token.issuer}")
@@ -26,14 +27,6 @@ public final class TokenOptions {
     @Value("${jwt.token.refresh.expirationInDays}")
     private int refreshExpirationInDays;
 
-
-    public String getIssuer() {
-        return issuer;
-    }
-
-    public int getAllowedClockSkewSeconds() {
-        return allowedClockSkewSeconds;
-    }
 
     public byte[] getAccessTokenSigningKey() {
         return accessSigningKey.getBytes(StandardCharsets.UTF_8);

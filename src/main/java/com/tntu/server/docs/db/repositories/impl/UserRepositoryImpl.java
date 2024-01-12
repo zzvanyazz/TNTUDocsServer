@@ -6,12 +6,11 @@ import com.tntu.server.docs.core.repositories.UserModelRepository;
 import com.tntu.server.docs.db.entities.UserEntity;
 import com.tntu.server.docs.db.mapping.UserMapper;
 import com.tntu.server.docs.db.repositories.db.UserDatabaseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserRepositoryImpl implements UserModelRepository {

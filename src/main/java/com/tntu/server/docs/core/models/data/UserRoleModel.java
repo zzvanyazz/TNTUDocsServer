@@ -1,24 +1,14 @@
 package com.tntu.server.docs.core.models.data;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRoleModel {
 
-    private long userId;
+    long userId;
+    long roleId;
 
-    private long roleId;
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(long roleId) {
-        this.roleId = roleId;
-    }
 }

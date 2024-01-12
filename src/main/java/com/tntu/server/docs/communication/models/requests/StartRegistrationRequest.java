@@ -1,41 +1,16 @@
 package com.tntu.server.docs.communication.models.requests;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class StartRegistrationRequest {
 
-    private String registrationCode;
-    private String userName;
-    private String normalisedUserName;
-    private String password;
+    String registrationCode;
+    String userName;
+    String normalisedUserName;
+    String password;
 
-    public String getRegistrationCode() {
-        return registrationCode;
-    }
-
-    public void setRegistrationCode(String registrationCode) {
-        this.registrationCode = registrationCode;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getNormalisedUserName() {
-        return normalisedUserName;
-    }
-
-    public void setNormalisedUserName(String normalisedUserName) {
-        this.normalisedUserName = normalisedUserName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

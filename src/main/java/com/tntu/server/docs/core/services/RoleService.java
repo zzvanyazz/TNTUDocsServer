@@ -3,17 +3,16 @@ package com.tntu.server.docs.core.services;
 import com.tntu.server.docs.core.models.data.RoleModel;
 import com.tntu.server.docs.core.models.exceptions.RoleNotFoundException;
 import com.tntu.server.docs.core.repositories.RoleModelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class RoleService {
 
-    @Autowired
-    private RoleModelRepository roleModelRepository;
+    private final RoleModelRepository roleModelRepository;
 
     public List<RoleModel> getAll() {
         return roleModelRepository.getAll();

@@ -1,30 +1,24 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.communication.models.auth.AuthorityRole;
 import com.tntu.server.docs.core.models.data.RoleModel;
 import com.tntu.server.docs.core.models.data.UserRoleModel;
 import com.tntu.server.docs.core.models.exceptions.ActionOnAdminRoleException;
 import com.tntu.server.docs.core.models.exceptions.RoleNotFoundException;
 import com.tntu.server.docs.core.models.exceptions.UserNotFoundException;
 import com.tntu.server.docs.core.repositories.UserRolesModelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserRolesService {
 
-    @Autowired
-    private UserRolesModelRepository userRolesModelRepository;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
+    private final UserRolesModelRepository userRolesModelRepository;
+    private final UserService userService;
+    private final RoleService roleService;
 
     public List<UserRoleModel> streamUserRoles(long userId) throws UserNotFoundException {
         userService.ensureExists(userId);

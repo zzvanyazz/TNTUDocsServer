@@ -1,24 +1,15 @@
 package com.tntu.server.docs.communication.models.auth;
 
 import java.time.OffsetDateTime;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Token {
-    private long userId;
-    private OffsetDateTime issuedAt;
 
-    public long getUserId() {
-        return userId;
-    }
+    long userId;
+    OffsetDateTime issuedAt;
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public OffsetDateTime getIssuedAt() {
-        return issuedAt;
-    }
-
-    public void setIssuedAt(OffsetDateTime issuedAt) {
-        this.issuedAt = issuedAt;
-    }
 }

@@ -2,18 +2,15 @@ package com.tntu.server.docs.core.services.mail;
 
 import com.tntu.server.docs.core.models.data.RoleModel;
 import com.tntu.server.docs.core.models.exceptions.CanNotSendMailException;
-import com.tntu.server.docs.core.options.MailOptions;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class MailService {
 
-    @Autowired
-    private MailSender mailSender;
-
-    @Autowired
-    private MailContentService mailContentService;
+    private final MailSender mailSender;
+    private final MailContentService mailContentService;
 
 
     public void sendRegistrationMessage(String code, String email, RoleModel roleModel) throws CanNotSendMailException {

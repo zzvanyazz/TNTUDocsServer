@@ -1,9 +1,11 @@
 package com.tntu.server.docs.core.options;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@Getter
 public class MailOptions {
 
    /* @Value("${mail.content.registration}")
@@ -25,40 +27,4 @@ public class MailOptions {
     @Value("${mail.debug}")
     private boolean useDebug;
 
-
-   /*public String getRegistrationMailContent() {
-        return registrationMailContent;
-    }*/
-
-    public String getMailHost() {
-        return mailHost;
-    }
-
-    public int getMailPort() {
-        return mailPort;
-    }
-
-    public String getMailUserEmail() {
-        return mailUserEmail;
-    }
-
-    public String getMailUserPassword() {
-        return mailUserPassword;
-    }
-
-    public String getMailTransportProtocol() {
-        return mailTransportProtocol;
-    }
-
-    public boolean useSmtpAuth() {
-        return useSmtpAuth;
-    }
-
-    public boolean useSmtpStarttls() {
-        return useSmtpStarttls;
-    }
-
-    public boolean useDebug() {
-        return useDebug;
-    }
 }

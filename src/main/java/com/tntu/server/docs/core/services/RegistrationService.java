@@ -1,43 +1,36 @@
 package com.tntu.server.docs.core.services;
 
-import com.tntu.server.docs.communication.models.auth.AuthorityRole;
 import com.tntu.server.docs.core.models.data.RegistrationModel;
 import com.tntu.server.docs.core.models.data.RoleModel;
 import com.tntu.server.docs.core.models.data.UserModel;
-import com.tntu.server.docs.core.models.exceptions.*;
+import com.tntu.server.docs.core.models.exceptions.ActionOnAdminRoleException;
+import com.tntu.server.docs.core.models.exceptions.CanNotCreateUserException;
+import com.tntu.server.docs.core.models.exceptions.CanNotSendMailException;
+import com.tntu.server.docs.core.models.exceptions.RegistrationCodeNotFoundException;
+import com.tntu.server.docs.core.models.exceptions.RegistrationProblemsException;
+import com.tntu.server.docs.core.models.exceptions.RoleNotFoundException;
+import com.tntu.server.docs.core.models.exceptions.UserAlreadyExistsException;
+import com.tntu.server.docs.core.models.exceptions.UserAlreadyRegisteredException;
 import com.tntu.server.docs.core.options.SecureOptions;
 import com.tntu.server.docs.core.repositories.RegistrationRepository;
 import com.tntu.server.docs.core.services.mail.MailService;
-import net.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import net.bytebuddy.utility.RandomString;
+import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RegistrationService {
 
-    @Autowired
-    private SecureOptions secureOptions;
-
-    @Autowired
-    private RegistrationRepository registrationRepository;
-
-    @Autowired
-    private SecureRandomService secureRandomService;
-
-    @Autowired
-    private MailService mailService;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final SecureOptions secureOptions;
+    private final RegistrationRepository registrationRepository;
+    private final SecureRandomService secureRandomService;
+    private final MailService mailService;
+    private final RoleService roleService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
 
     public void startUserRegistration(String roleName, List<String> userEmails)

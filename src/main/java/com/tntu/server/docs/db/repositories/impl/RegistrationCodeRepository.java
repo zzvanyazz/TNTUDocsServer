@@ -4,11 +4,10 @@ import com.tntu.server.docs.core.models.data.StartRegistrationModel;
 import com.tntu.server.docs.core.repositories.RegistrationRepository;
 import com.tntu.server.docs.db.mapping.RegistrationCodeMapper;
 import com.tntu.server.docs.db.repositories.db.RegistrationCodesDatabaseRepository;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Repository
 public class RegistrationCodeRepository implements RegistrationRepository {

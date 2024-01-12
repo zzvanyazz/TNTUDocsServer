@@ -5,26 +5,24 @@ import com.tntu.server.docs.communication.models.auth.Token;
 import com.tntu.server.docs.communication.models.responses.AuthResponseData;
 import com.tntu.server.docs.communication.options.TokenOptions;
 import com.tntu.server.docs.core.models.data.UserModel;
-import com.tntu.server.docs.core.services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.OffsetDateTime;
 import java.time.Period;
 import java.time.ZoneOffset;
 import java.util.Date;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TokenService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private TokenOptions tokenOptions;
+    private final TokenOptions tokenOptions;
 
 
     public Token parseRefreshToken(String jwtToken) throws InvalidTokenException {

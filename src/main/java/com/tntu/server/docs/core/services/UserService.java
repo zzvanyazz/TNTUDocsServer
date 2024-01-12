@@ -1,22 +1,23 @@
 package com.tntu.server.docs.core.services;
 
 import com.tntu.server.docs.core.models.data.UserModel;
-import com.tntu.server.docs.core.models.exceptions.*;
+import com.tntu.server.docs.core.models.exceptions.CanNotCreateUserException;
+import com.tntu.server.docs.core.models.exceptions.LoginFailedException;
+import com.tntu.server.docs.core.models.exceptions.UserAlreadyExistsException;
+import com.tntu.server.docs.core.models.exceptions.UserIsBlockedException;
+import com.tntu.server.docs.core.models.exceptions.UserNotFoundException;
 import com.tntu.server.docs.core.repositories.UserModelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import javax.mail.AuthenticationFailedException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.mail.AuthenticationFailedException;
-import java.util.List;
-
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserModelRepository userModelRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserModelRepository userModelRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     public UserModel login(String username, String password) throws LoginFailedException, UserIsBlockedException {

@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  tntu-docs-db:
+    image: postgres:14.1
+    restart: on-failure
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    networks:
+      - yeenergy
+    ports:
+      - "35432:5432"
+
+networks:
+  yeenergy:
+    driver: bridge

@@ -7,10 +7,15 @@ import com.tntu.server.docs.communication.models.mappings.UserMapper;
 import com.tntu.server.docs.communication.models.requests.users.StartUsersRegistration;
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
 import com.tntu.server.docs.core.models.data.RegistrationModel;
-import com.tntu.server.docs.core.models.exceptions.*;
+import com.tntu.server.docs.core.models.exceptions.ActionOnAdminRoleException;
+import com.tntu.server.docs.core.models.exceptions.CanNotCreateUserException;
+import com.tntu.server.docs.core.models.exceptions.RegistrationCodeNotFoundException;
+import com.tntu.server.docs.core.models.exceptions.RegistrationProblemsException;
+import com.tntu.server.docs.core.models.exceptions.RoleNotFoundException;
+import com.tntu.server.docs.core.models.exceptions.UserAlreadyExistsException;
 import com.tntu.server.docs.core.services.RegistrationService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -21,10 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("v1/registration")
+@RequiredArgsConstructor
 public class RegistrationController {
 
-    @Autowired
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
 
     @ApiOperation("Start user registration.")
     @PostMapping(value = "/start", produces = MediaType.APPLICATION_JSON_VALUE)

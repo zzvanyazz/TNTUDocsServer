@@ -5,12 +5,11 @@ import com.tntu.server.docs.core.repositories.UserRolesModelRepository;
 import com.tntu.server.docs.db.entities.UserRoleEntity;
 import com.tntu.server.docs.db.mapping.UserRoleMapper;
 import com.tntu.server.docs.db.repositories.db.UserRoleDatabaseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserRolesRepositoryImpl implements UserRolesModelRepository {
