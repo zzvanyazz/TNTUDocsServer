@@ -1,14 +1,13 @@
 package com.tntu.server.docs.communication.models.requests.documents;
 
-import com.tntu.server.docs.core.data.enums.DocumentStatus;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.time.OffsetDateTime;
-
 import static com.tntu.server.docs.communication.models.Validation.MAX_LENGTH;
 import static com.tntu.server.docs.communication.models.Validation.NAME_PATTERN;
+
+import com.tntu.server.docs.core.data.enums.DocumentStatus;
+import java.time.OffsetDateTime;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
 
 public class UpdateDocumentRequest {
 

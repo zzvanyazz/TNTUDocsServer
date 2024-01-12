@@ -5,14 +5,12 @@ import com.tntu.server.docs.core.data.exceptions.section.SectionAlreadyExistsExc
 import com.tntu.server.docs.core.data.exceptions.section.SectionNotExistsException;
 import com.tntu.server.docs.core.data.models.docs.SectionModel;
 import com.tntu.server.docs.core.repositories.SectionRepository;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SectionService {
@@ -28,27 +26,40 @@ public class SectionService {
     @Autowired
     private FilesService filesService;
 
+    @Transactional(readOnly = true)
     public List<SectionModel> getAllSections() {
         return sectionRepository.getAllSections();
     }
 
+    @Transactional(readOnly = true)
     public SectionModel getSection(long id) throws SectionNotExistsException {
         return sectionRepository.getSection(id)
                 .orElseThrow(SectionNotExistsException::new);
     }
 
+    @Transactional(readOnly = true)
     public SectionModel getSection(String name) throws SectionNotExistsException {
         return sectionRepository.getSection(name)
                 .orElseThrow(SectionNotExistsException::new);
     }
 
-    public SectionModel updateSection(long id, String name) throws SectionNotExistsException {
+    @Transactional
+    public SectionModel updateSection(long id, String newName) throws SectionNotExistsException {
         var section = getSection(id);
-        section.setName(name);
+
+        if (sectionRepository.getSection(newName)
+            .map(SectionModel::getId)
+            .map(sectionId -> sectionId == id)
+            .orElse(true)) {
+            throw new SectionAlreadyExistsException();
+        }
+
+        section.setName(newName);
 
         return sectionRepository.save(section);
     }
 
+    @Transactional
     public SectionModel createSection(SectionModel model) throws DocsException {
         var name = model.getName();
         if (sectionRepository.exists(name))

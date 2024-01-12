@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +21,13 @@ public class UserRolesService {
     private final UserService userService;
     private final RoleService roleService;
 
+    @Transactional(readOnly = true)
     public List<UserRoleModel> streamUserRoles(long userId) throws UserNotFoundException {
         userService.ensureExists(userId);
         return userRolesModelRepository.findByUserId(userId);
     }
 
+    @Transactional
     public void assignUserRole(long userId, long roleId)
             throws UserNotFoundException, RoleNotFoundException, ActionOnAdminRoleException {
         userService.ensureExists(userId);
@@ -34,6 +37,7 @@ public class UserRolesService {
             userRolesModelRepository.saveAssign(userId, roleId);
     }
 
+    @Transactional
     public void removeAssignUserRole(long userId, long roleId)
             throws UserNotFoundException, RoleNotFoundException, ActionOnAdminRoleException {
         userService.ensureExists(userId);
@@ -43,6 +47,7 @@ public class UserRolesService {
             userRolesModelRepository.removeAssign(userId, roleId);
     }
 
+    @Transactional(readOnly = true)
     public List<RoleModel> getUserRoles(long userId) throws UserNotFoundException, RoleNotFoundException {
         var roleIdList = streamUserRoles(userId)
                 .stream()

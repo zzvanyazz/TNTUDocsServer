@@ -1,9 +1,8 @@
 package com.tntu.server.docs.core.repositories;
 
 import com.tntu.server.docs.core.data.models.user.StartRegistrationModel;
-import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegistrationRepository {

@@ -14,7 +14,12 @@ import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotAvailableExcept
 import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotExistsException;
 import com.tntu.server.docs.core.data.exceptions.section.SectionAlreadyExistsException;
 import com.tntu.server.docs.core.data.exceptions.section.SectionNotExistsException;
-import com.tntu.server.docs.core.data.exceptions.storage.file.*;
+import com.tntu.server.docs.core.data.exceptions.storage.file.CanNotMoveException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.CanNotReadFileException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.CanNotWriteFileException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.DeleteFileException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.FileAlreadyExistsException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.FileNotExistsException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotCreateDirectoryException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotDeleteDirectoryException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.InvalidResourceException;
@@ -23,6 +28,10 @@ import com.tntu.server.docs.core.data.exceptions.user.ActionOnAdminRoleException
 import com.tntu.server.docs.core.data.exceptions.user.RoleNotFoundException;
 import com.tntu.server.docs.core.data.exceptions.user.UserAlreadyExistsException;
 import com.tntu.server.docs.core.data.exceptions.user.UserNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
+import javax.mail.AuthenticationFailedException;
+import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +42,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import javax.mail.AuthenticationFailedException;
-import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.Map;
 
 @ControllerAdvice
 public final class RestExceptionHandler extends ResponseEntityExceptionHandler {

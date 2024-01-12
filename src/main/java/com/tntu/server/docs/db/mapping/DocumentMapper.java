@@ -2,7 +2,6 @@ package com.tntu.server.docs.db.mapping;
 
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.db.entities.DocumentEntity;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

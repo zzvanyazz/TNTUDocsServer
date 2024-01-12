@@ -1,11 +1,10 @@
 package com.tntu.server.docs.core.data.models.file;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.NotNull;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import javax.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 public class BytesMultipartFile implements MultipartFile {
 

@@ -1,11 +1,10 @@
 package com.tntu.server.docs.db.repositories.db;
 
 import com.tntu.server.docs.db.entities.UserEntity;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface UserDatabaseRepository extends CrudRepository<UserEntity, Long> {

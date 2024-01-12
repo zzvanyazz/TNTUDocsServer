@@ -18,6 +18,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class RegistrationService {
     private final PasswordEncoder passwordEncoder;
 
 
+    @Transactional(readOnly = true)
     public void startUserRegistration(String roleName, List<String> userEmails)
             throws RoleNotFoundException, ActionOnAdminRoleException, RegistrationProblemsException {
         var exceptions = new ArrayList<DocsException>();
@@ -49,6 +51,7 @@ public class RegistrationService {
             throw new RegistrationProblemsException(exceptions);
     }
 
+    @Transactional
     public void startUserRegistration(RoleModel roleModel, String userEmail) throws DocsException {
         if (userService.existsByEmail(userEmail)) {
             throw new UserAlreadyRegisteredException();
@@ -71,6 +74,7 @@ public class RegistrationService {
         }
     }
 
+    @Transactional
     public UserModel register(RegistrationModel registrationModel)
             throws CanNotCreateUserException, RegistrationCodeNotFoundException {
         var reg = registrationRepository
