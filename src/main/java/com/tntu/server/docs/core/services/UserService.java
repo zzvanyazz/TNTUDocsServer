@@ -5,20 +5,17 @@ import com.tntu.server.docs.core.data.exceptions.auth.LoginFailedException;
 import com.tntu.server.docs.core.data.exceptions.user.UserNotFoundException;
 import com.tntu.server.docs.core.data.models.user.UserModel;
 import com.tntu.server.docs.core.repositories.UserModelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import javax.mail.AuthenticationFailedException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.mail.AuthenticationFailedException;
-import java.util.List;
-
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserModelRepository userModelRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserModelRepository userModelRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     public UserModel login(String email, String password) throws LoginFailedException {

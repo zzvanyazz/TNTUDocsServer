@@ -1,34 +1,23 @@
 package com.tntu.server.docs.communication.models.requests.auth;
 
-import org.hibernate.validator.constraints.Length;
+import static com.tntu.server.docs.communication.models.Validation.MAX_LENGTH;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
+import org.hibernate.validator.constraints.Length;
 
-import static com.tntu.server.docs.communication.models.Validation.MAX_LENGTH;
-
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthRequest {
 
     @NotBlank
     @Length(max = MAX_LENGTH)
-    private String email;
+    String email;
 
     @NotEmpty
-    private String password;
+    String password;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

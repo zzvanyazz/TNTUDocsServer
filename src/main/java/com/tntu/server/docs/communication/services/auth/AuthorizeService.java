@@ -7,21 +7,17 @@ import com.tntu.server.docs.communication.models.requests.auth.RefreshTokenReque
 import com.tntu.server.docs.communication.models.responses.AuthResponseData;
 import com.tntu.server.docs.core.data.exceptions.auth.LoginFailedException;
 import com.tntu.server.docs.core.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import javax.mail.AuthenticationFailedException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class AuthorizeService {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TokenService tokenService;
-
+    private final UserService userService;
+    private final TokenService tokenService;
 
     public AuthResponseData authenticate(AuthRequest request) throws LoginFailedException {
         var email = request.getEmail();

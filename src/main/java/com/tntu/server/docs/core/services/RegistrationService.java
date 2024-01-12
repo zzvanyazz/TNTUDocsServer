@@ -13,36 +13,23 @@ import com.tntu.server.docs.core.data.models.user.UserModel;
 import com.tntu.server.docs.core.options.SecureOptions;
 import com.tntu.server.docs.core.repositories.RegistrationRepository;
 import com.tntu.server.docs.core.services.mail.MailService;
-import net.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import net.bytebuddy.utility.RandomString;
+import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RegistrationService {
 
-    @Autowired
-    private SecureOptions secureOptions;
-
-    @Autowired
-    private RegistrationRepository registrationRepository;
-
-    @Autowired
-    private SecureRandomService secureRandomService;
-
-    @Autowired
-    private MailService mailService;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final SecureOptions secureOptions;
+    private final RegistrationRepository registrationRepository;
+    private final SecureRandomService secureRandomService;
+    private final MailService mailService;
+    private final RoleService roleService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
 
     public void startUserRegistration(String roleName, List<String> userEmails)

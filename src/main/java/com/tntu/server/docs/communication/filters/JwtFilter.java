@@ -3,6 +3,14 @@ package com.tntu.server.docs.communication.filters;
 import com.tntu.server.docs.communication.models.auth.InvalidTokenException;
 import com.tntu.server.docs.communication.models.auth.Principal;
 import com.tntu.server.docs.communication.services.auth.VerificationAuthorizationService;
+import java.io.IOException;
+import java.util.Optional;
+import javax.mail.AuthenticationFailedException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-
-import javax.mail.AuthenticationFailedException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Optional;
 
 @Component
 public final class JwtFilter extends GenericFilterBean {

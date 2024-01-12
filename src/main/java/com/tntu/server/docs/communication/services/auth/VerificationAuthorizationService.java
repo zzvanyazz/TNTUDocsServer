@@ -3,22 +3,17 @@ package com.tntu.server.docs.communication.services.auth;
 import com.tntu.server.docs.communication.models.auth.InvalidTokenException;
 import com.tntu.server.docs.communication.models.auth.Principal;
 import com.tntu.server.docs.core.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.mail.AuthenticationFailedException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.mail.AuthenticationFailedException;
-
 @Service
+@RequiredArgsConstructor
 public class VerificationAuthorizationService {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private AuthorityService authorityService;
+    private final UserService userService;
+    private final TokenService tokenService;
+    private final AuthorityService authorityService;
 
     public Principal authenticate(String jwtToken) throws InvalidTokenException, AuthenticationFailedException {
         var token = tokenService.parseAccessToken(jwtToken);

@@ -1,17 +1,15 @@
 package com.tntu.server.docs.communication.models.requests;
 
 import javax.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AssignUserRoleRequest {
 
     @NotNull
-    private Long roleId;
+    Long roleId;
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
 }

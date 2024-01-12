@@ -1,30 +1,20 @@
 package com.tntu.server.docs.communication.models.requests.users;
 
+import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class StartUsersRegistration {
 
     @NotBlank
-    private String roleName;
+    String roleName;
 
     @NotEmpty
-    private List<String> usersEmails;
+    List<String> usersEmails;
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public List<String> getUsersEmails() {
-        return usersEmails;
-    }
-
-    public void setUsersEmails(List<String> usersEmails) {
-        this.usersEmails = usersEmails;
-    }
 }

@@ -7,26 +7,25 @@ import com.tntu.server.docs.core.data.models.user.RoleModel;
 import com.tntu.server.docs.core.data.models.user.UserModel;
 import com.tntu.server.docs.core.services.RoleService;
 import com.tntu.server.docs.core.services.UserRolesService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
+@RequiredArgsConstructor
 public class AuthorityService {
-    @Autowired
-    private RoleService roleService;
 
-    @Autowired
-    private UserRolesService userRolesService;
+    private final RoleService roleService;
+    private final UserRolesService userRolesService;
 
     private final Map<Long, String> authorityPerRoleId = new HashMap<>();
 
