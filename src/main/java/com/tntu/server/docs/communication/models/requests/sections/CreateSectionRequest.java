@@ -1,12 +1,11 @@
 package com.tntu.server.docs.communication.models.requests.sections;
 
-import org.hibernate.validator.constraints.Length;
+import static com.tntu.server.docs.communication.models.Validation.MAX_LENGTH;
+import static com.tntu.server.docs.communication.models.Validation.NAME_PATTERN;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-
-import static com.tntu.server.docs.communication.models.Validation.MAX_LENGTH;
-import static com.tntu.server.docs.communication.models.Validation.NAME_PATTERN;
+import org.hibernate.validator.constraints.Length;
 
 public class CreateSectionRequest {
 

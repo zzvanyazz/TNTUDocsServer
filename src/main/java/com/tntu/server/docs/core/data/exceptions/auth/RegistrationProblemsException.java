@@ -1,7 +1,6 @@
 package com.tntu.server.docs.core.data.exceptions.auth;
 
 import com.tntu.server.docs.core.data.exceptions.DocsException;
-
 import java.util.List;
 
 

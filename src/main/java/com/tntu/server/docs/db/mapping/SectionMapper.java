@@ -3,7 +3,6 @@ package com.tntu.server.docs.db.mapping;
 import com.tntu.server.docs.core.data.models.docs.SectionModel;
 import com.tntu.server.docs.db.entities.DocumentEntity;
 import com.tntu.server.docs.db.entities.SectionEntity;
-
 import java.util.List;
 
 public class SectionMapper {

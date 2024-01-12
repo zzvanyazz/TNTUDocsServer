@@ -1,21 +1,18 @@
 package com.tntu.server.docs.db.repositories.impl;
 
 import com.google.common.collect.Streams;
-import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.data.models.docs.SectionModel;
 import com.tntu.server.docs.core.repositories.SectionRepository;
 import com.tntu.server.docs.db.entities.SectionEntity;
 import com.tntu.server.docs.db.mapping.SectionMapper;
 import com.tntu.server.docs.db.repositories.db.DocumentsDatabaseRepository;
 import com.tntu.server.docs.db.repositories.db.SectionDatabaseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import javax.transaction.TransactionScoped;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class SectionRepositoryImpl implements SectionRepository {

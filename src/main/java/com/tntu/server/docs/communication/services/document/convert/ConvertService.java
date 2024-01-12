@@ -1,10 +1,9 @@
 package com.tntu.server.docs.communication.services.document.convert;
 
 import com.tntu.server.docs.core.data.models.file.BytesMultipartFile;
+import java.util.function.Function;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.function.Function;
 
 @Service
 public interface ConvertService {

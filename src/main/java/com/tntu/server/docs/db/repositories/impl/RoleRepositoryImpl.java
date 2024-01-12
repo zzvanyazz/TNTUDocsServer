@@ -5,12 +5,11 @@ import com.tntu.server.docs.core.data.models.user.RoleModel;
 import com.tntu.server.docs.core.repositories.RoleModelRepository;
 import com.tntu.server.docs.db.mapping.RoleMapper;
 import com.tntu.server.docs.db.repositories.db.RoleDatabaseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class RoleRepositoryImpl implements RoleModelRepository {

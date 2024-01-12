@@ -1,11 +1,9 @@
 package com.tntu.server.docs.core.repositories;
 
-import com.tntu.server.docs.core.data.enums.DocumentStatus;
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DocumentRepository {

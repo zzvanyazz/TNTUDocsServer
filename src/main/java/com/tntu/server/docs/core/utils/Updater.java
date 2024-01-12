@@ -1,8 +1,8 @@
 package com.tntu.server.docs.core.utils;
 
-import javax.validation.constraints.NotNull;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import javax.validation.constraints.NotNull;
 
 public class Updater<T> {
 

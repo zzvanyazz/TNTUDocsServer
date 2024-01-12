@@ -1,9 +1,8 @@
 package com.tntu.server.docs.communication.options;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class VisualisationOptions {

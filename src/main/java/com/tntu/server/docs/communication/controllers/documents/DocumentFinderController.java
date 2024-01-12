@@ -1,6 +1,7 @@
 package com.tntu.server.docs.communication.controllers.documents;
 
-import com.tntu.server.docs.communication.models.Validation;
+import static com.tntu.server.docs.communication.models.Validation.NAME_PATTERN;
+
 import com.tntu.server.docs.communication.models.responses.ResponseEntityFactory;
 import com.tntu.server.docs.communication.services.auth.CurrentUserService;
 import com.tntu.server.docs.communication.services.document.VisualiseDocumentService;
@@ -9,6 +10,7 @@ import com.tntu.server.docs.core.data.exceptions.docs.DocumentNotAvailableExcept
 import com.tntu.server.docs.core.data.models.docs.DocumentModel;
 import com.tntu.server.docs.core.services.DocumentService;
 import io.swagger.annotations.ApiOperation;
+import javax.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.Pattern;
-
-import static com.tntu.server.docs.communication.models.Validation.NAME_PATTERN;
 
 @RestController
 @RequestMapping("/v1/docs")

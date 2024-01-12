@@ -1,11 +1,10 @@
 package com.tntu.server.docs.core.services;
 
-import org.springframework.stereotype.Service;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.springframework.stereotype.Service;
 
 @Service
 public final class SecureRandomService {

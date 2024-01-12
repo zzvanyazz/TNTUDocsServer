@@ -1,7 +1,6 @@
 package com.tntu.server.docs.communication.models.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.Map;
 
 public final class Error {

@@ -2,11 +2,10 @@ package com.tntu.server.docs.communication.services.auth;
 
 import com.tntu.server.docs.communication.models.auth.AuthorityRole;
 import com.tntu.server.docs.communication.models.auth.Principal;
+import java.util.Arrays;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
 
 @Service
 public final class CurrentUserService {

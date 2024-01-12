@@ -1,9 +1,8 @@
 package com.tntu.server.docs.core.repositories;
 
 import com.tntu.server.docs.core.data.models.user.UserRoleModel;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRolesModelRepository {

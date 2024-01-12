@@ -1,21 +1,16 @@
 package com.tntu.server.docs.communication.services.document.convert;
 
 import com.tntu.server.docs.communication.models.exceptions.CanNotConvertDocumentException;
-import com.tntu.server.docs.communication.options.ConverterOptions;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jodconverter.core.document.DefaultDocumentFormatRegistry;
 import org.jodconverter.core.document.DocumentFormat;
 import org.jodconverter.local.JodConverter;
-import org.jodconverter.local.office.LocalOfficeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.annotation.PostConstruct;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 
 @Service
 public abstract class JodConverterService implements ConvertService {

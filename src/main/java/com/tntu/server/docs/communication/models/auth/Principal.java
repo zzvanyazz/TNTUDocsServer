@@ -1,11 +1,10 @@
 package com.tntu.server.docs.communication.models.auth;
 
 import com.tntu.server.docs.core.data.models.user.UserModel;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public final class Principal implements UserDetails {
     private long id;

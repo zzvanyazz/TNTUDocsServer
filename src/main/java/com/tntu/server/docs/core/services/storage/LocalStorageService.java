@@ -1,14 +1,15 @@
 package com.tntu.server.docs.core.services.storage;
 
-import com.tntu.server.docs.core.data.exceptions.storage.file.*;
+import com.tntu.server.docs.core.data.exceptions.storage.file.CanNotMoveException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.CanNotReadFileException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.CanNotWriteFileException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.DeleteFileException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.FileAlreadyExistsException;
+import com.tntu.server.docs.core.data.exceptions.storage.file.FileNotExistsException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotCreateDirectoryException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.CanNotDeleteDirectoryException;
 import com.tntu.server.docs.core.data.exceptions.storage.resource.InvalidResourceException;
 import com.tntu.server.docs.core.options.StorageOptions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,6 +17,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class LocalStorageService implements StorageService {
