@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StartRegistrationModel {
 
-    String registrationCode;
-    String email;
-    long roleId;
+  String registrationCode;
+  String email;
+  long roleId;
 
 }

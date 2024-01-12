@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateUserModel {
 
-    String username;
-    String normalizedUsername;
-    String password;
+  String username;
+  String normalizedUsername;
+  String password;
 
 }

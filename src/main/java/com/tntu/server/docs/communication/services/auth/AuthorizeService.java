@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthorizeService {
 
-    private final UserService userService;
-    private final TokenService tokenService;
+  private final UserService userService;
+  private final TokenService tokenService;
 
     public AuthResponseData authenticate(AuthRequest request) throws LoginFailedException {
         var email = request.getEmail();

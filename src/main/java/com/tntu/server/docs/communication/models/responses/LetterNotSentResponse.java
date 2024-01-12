@@ -10,6 +10,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 public class LetterNotSentResponse {
 
-    String message;
+  String message;
 
 }

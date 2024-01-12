@@ -9,10 +9,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleDto {
 
-    long id;
-    String name;
-    String description;
-    OffsetDateTime createTimestamp;
-    OffsetDateTime updateTimestamp;
+  long id;
+  String name;
+  String description;
+  OffsetDateTime createTimestamp;
+  OffsetDateTime updateTimestamp;
 
 }

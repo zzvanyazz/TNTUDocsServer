@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRoleModel {
 
-    long userId;
-    long roleId;
+  long userId;
+  long roleId;
 
 }

@@ -12,10 +12,10 @@ public class RoleModel {
     public static final String ADMIN = "Admin";
     public static final String MANAGER = "Manager";
 
-    long id;
-    String name;
-    String description;
-    OffsetDateTime createTimestamp;
-    OffsetDateTime updateTimestamp;
+  long id;
+  String name;
+  String description;
+  OffsetDateTime createTimestamp;
+  OffsetDateTime updateTimestamp;
 
 }

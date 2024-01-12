@@ -9,9 +9,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthResponseData {
 
-    long userId;
-    String accessToken;
-    String refreshToken;
-    OffsetDateTime expiration;
+  long userId;
+  String accessToken;
+  String refreshToken;
+  OffsetDateTime expiration;
 
 }
